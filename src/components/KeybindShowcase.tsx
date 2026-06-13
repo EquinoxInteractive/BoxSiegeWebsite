@@ -132,7 +132,7 @@ function KeyCap({
                 className="absolute -top-7 left-1/2 -translate-x-1/2 select-none pointer-events-none"
             >
                 <span
-                    className="font-display text-[11px] md:text-xs uppercase tracking-[0.3em] whitespace-nowrap"
+                    className={`font-display text-[11px] md:text-xs uppercase tracking-[0.3em] whitespace-nowrap${pressed ? "" : " keycap-action-label"}`}
                     style={{
                         color: pressed ? accent : "rgba(255,255,255,0.65)",
                         textShadow: pressed
@@ -190,7 +190,7 @@ function KeyCap({
 
                 {/* Keycap body — dark, designed */}
                 <div
-                    className="relative rounded-2xl border overflow-hidden w-[68px] h-[68px] sm:w-[104px] sm:h-[104px]"
+                    className="themed-keycap relative rounded-2xl border overflow-hidden w-[68px] h-[68px] sm:w-[104px] sm:h-[104px]"
                     style={{
                         background: pressed
                             ? `linear-gradient(180deg, #2a2f3a 0%, #161a22 55%, #0a0d13 100%)`
@@ -382,10 +382,10 @@ function KeyboardCluster({
                                 borderColor: isPressed ? accent : "rgba(255,255,255,0.08)",
                                 backgroundColor: isPressed ? `${accent}22` : "rgba(255,255,255,0.02)",
                             }}
-                            className="rounded-md border px-2 py-1.5"
+                            className={`rounded-md border px-2 py-1.5${isPressed ? "" : " keybind-legend-item"}`}
                         >
                             <div
-                                className="font-display text-sm"
+                                className={`font-display text-sm${isPressed ? "" : " keybind-legend-label"}`}
                                 style={{ color: isPressed ? accent : "rgba(255,255,255,0.85)" }}
                             >
                                 {spec.short}
@@ -472,7 +472,7 @@ export function KeybindShowcase() {
                         <button
                             key={f.id}
                             onClick={() => setActive(f.id)}
-                            className="relative px-5 py-2 rounded-full border text-xs font-display uppercase tracking-[0.3em] transition-colors"
+                            className={`relative px-5 py-2 rounded-full border text-xs font-display uppercase tracking-[0.3em] transition-colors${isActive ? "" : " keybind-tab-inactive"}`}
                             style={{
                                 borderColor: isActive ? f.accent : "rgba(255,255,255,0.12)",
                                 color: isActive ? f.accent : "rgba(255,255,255,0.6)",
@@ -536,7 +536,7 @@ export function KeybindShowcase() {
                         className="h-2 w-2 rounded-full animate-pulse"
                         style={{ background: faction.accent, boxShadow: `0 0 10px ${faction.accent}` }}
                     />
-                    <span className="text-[10px] uppercase tracking-[0.35em] text-white/40">
+                    <span className="keybind-hint-text text-[10px] uppercase tracking-[0.35em] text-white/40">
                         {isTouch
                             ? "Tap a key to test · Fully Rebindable In-Game"
                             : "Press your keyboard to test · Fully Rebindable In-Game"}

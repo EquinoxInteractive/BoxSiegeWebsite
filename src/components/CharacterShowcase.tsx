@@ -55,7 +55,7 @@ export function CharacterShowcase() {
         </h3>
 
         {/* P1 / P2 toggle */}
-        <div className="mt-6 inline-flex flex-wrap justify-center rounded-full border border-white/15 bg-black/50 backdrop-blur p-1 relative">
+        <div className="char-tab-wrapper mt-6 inline-flex flex-wrap justify-center rounded-full border border-white/15 bg-black/50 backdrop-blur p-1 relative">
           {(["p1", "p2", "p3", "p4"] as const).map((key) => {
             const isActive = accent === key;
             const color = FACTION_TOGGLE_COLOR[key];
@@ -63,7 +63,7 @@ export function CharacterShowcase() {
               <button
                 key={key}
                 onClick={() => setAccent(key)}
-                className="relative px-4 md:px-6 py-2 text-xs md:text-sm font-bold uppercase tracking-[0.3em] transition-colors cursor-pointer"
+                className={`relative px-4 md:px-6 py-2 text-xs md:text-sm font-bold uppercase tracking-[0.3em] transition-colors cursor-pointer${isActive ? "" : " char-tab-inactive"}`}
                 style={{ color: isActive ? "#fff" : "rgba(255,255,255,0.5)" }}
               >
                 {isActive && (
@@ -82,7 +82,7 @@ export function CharacterShowcase() {
       </div>
 
       <div
-        className="relative overflow-hidden rounded-3xl border border-white/10"
+        className="themed-panel relative overflow-hidden rounded-3xl border border-white/10"
         style={{
           background:
             `radial-gradient(circle at 30% 50%, ${accentColor}22 0%, transparent 60%), linear-gradient(180deg, #0a0a0a 0%, #050505 100%)`,
@@ -133,7 +133,7 @@ export function CharacterShowcase() {
                         style={{ boxShadow: isActive ? `0 0 24px ${accentColor}cc` : `0 0 12px ${accentColor}33` }}
                       >
                         <img src={item.src} alt={item.label} className="w-full h-full object-contain" style={{ imageRendering: "pixelated" }} />
-                        <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest font-bold" style={{ color: isActive ? accentColor : "rgba(255,255,255,0.4)" }}>
+                        <span className={`absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest font-bold${isActive ? "" : " char-sprite-label-inactive"}`} style={{ color: isActive ? accentColor : "rgba(255,255,255,0.4)" }}>
                           {item.label}
                         </span>
                       </button>
@@ -141,7 +141,7 @@ export function CharacterShowcase() {
                   })}
                 </div>
 
-                <p className="mt-8 text-xs uppercase tracking-widest text-white/40">
+                <p className="char-hint-text mt-8 text-xs uppercase tracking-widest text-white/40">
                   Click sprite to preview · {mode === "death" ? "Death" : "Idle"}
                 </p>
 
@@ -237,7 +237,7 @@ export function CharacterShowcase() {
                     style={{ imageRendering: "pixelated" }}
                   />
                 </div>
-                <span className={`text-xs uppercase tracking-widest font-bold ${isActive ? "text-white" : "text-white/50"}`}>
+                <span className={`text-xs uppercase tracking-widest font-bold ${isActive ? "char-selector-name-active text-white" : "char-selector-name-inactive text-white/50"}`}>
                   {c.name}
                 </span>
               </button>

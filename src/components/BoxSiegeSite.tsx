@@ -4,6 +4,7 @@ import { Gamepad2, Swords, Keyboard, Download, Volume2, ChevronDown, ArrowUp } f
 import { CharacterShowcase } from "./CharacterShowcase";
 import { WeaponShowcase } from "./WeaponShowcase";
 import { KeybindShowcase } from "./KeybindShowcase";
+import { ThemeToggle, useInitTheme } from "./ThemeToggle";
 import { MAPS, POWERUPS } from "@/data/content";
 
 const NAV = [
@@ -82,6 +83,22 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("home");
 
+  // Close menu then scroll — we defer the scroll so it runs after
+  // the dropdown finishes collapsing (avoids overflow:hidden blocking it).
+  const handleMobileNav = (id: string) => {
+    setOpen(false);
+    // Two rAFs: first lets React flush the state, second lets the
+    // browser recalculate layout now that overflow is gone.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const target = document.getElementById(id);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
@@ -135,30 +152,33 @@ function Header() {
             );
           })}
         </ul>
-        <button
-          className="md:hidden relative w-10 h-10 flex items-center justify-center text-white rounded-md border border-white/15 bg-black/40 hover:border-[#00f1ff]/60 transition-colors cursor-pointer"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-        >
-          <span className="relative block w-6 h-4">
-            <motion.span
-              className="absolute left-0 right-0 h-0.5 bg-white origin-center"
-              animate={open ? { top: "50%", y: "-50%", rotate: 45 } : { top: 0, y: 0, rotate: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            />
-            <motion.span
-              className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-white"
-              animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.2 }}
-            />
-            <motion.span
-              className="absolute left-0 right-0 h-0.5 bg-white origin-center"
-              animate={open ? { bottom: "50%", y: "50%", rotate: -45 } : { bottom: 0, y: 0, rotate: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            />
-          </span>
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle variant="inline" />
+          <button
+            className="relative w-10 h-10 flex items-center justify-center text-white rounded-md border border-white/15 bg-black/40 hover:border-[#00f1ff]/60 transition-colors cursor-pointer"
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            <span className="relative block w-6 h-4">
+              <motion.span
+                className="themed-bar absolute left-0 right-0 h-0.5 bg-white origin-center"
+                animate={open ? { top: "50%", y: "-50%", rotate: 45 } : { top: 0, y: 0, rotate: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              />
+              <motion.span
+                className="themed-bar absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-white"
+                animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                transition={{ duration: 0.2 }}
+              />
+              <motion.span
+                className="themed-bar absolute left-0 right-0 h-0.5 bg-white origin-center"
+                animate={open ? { bottom: "50%", y: "50%", rotate: -45 } : { bottom: 0, y: 0, rotate: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              />
+            </span>
+          </button>
+        </div>
       </nav>
       <AnimatePresence>
         {open && (
@@ -170,11 +190,13 @@ function Header() {
           >
             {NAV.map(n => (
               <li key={n.id} className="border-b border-white/5">
-                <a href={`#${n.id}`} onClick={() => setOpen(false)}
-                   className={`flex items-center gap-3 px-6 py-4 uppercase tracking-widest text-sm transition-colors ${active === n.id ? "text-[#00f1ff] bg-white/5" : "text-white/80"}`}>
+                <button
+                  onClick={() => handleMobileNav(n.id)}
+                  className={`w-full flex items-center gap-3 px-6 py-4 uppercase tracking-widest text-sm transition-colors cursor-pointer text-left ${active === n.id ? "text-[#00f1ff] bg-white/5" : "text-white/80"}`}
+                >
                   <span className={`h-4 w-[3px] rounded-full transition-all ${active === n.id ? "bg-gradient-brand opacity-100" : "opacity-0"}`} />
                   {n.label}
-                </a>
+                </button>
               </li>
             ))}
           </motion.ul>
@@ -196,7 +218,7 @@ function Hero() {
       <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover brightness-[0.4]">
         <source src="/assets/VIDS/BG.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
+      <div className="themed-hero-overlay absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
       <div className="absolute inset-0 scanline-overlay opacity-40" />
 
       <motion.div style={{ y, opacity }} className="relative z-10 text-center px-6">
@@ -355,7 +377,7 @@ function Maps() {
   return (
     <Section id="maps" title="Game Maps">
       <div
-        className="relative overflow-hidden rounded-3xl border border-white/10"
+        className="themed-panel relative overflow-hidden rounded-3xl border border-white/10"
         style={{
           background: `radial-gradient(circle at 75% 30%, ${accent}22 0%, transparent 60%), linear-gradient(180deg, #060606 0%, #0a0a0a 100%)`,
         }}
@@ -566,7 +588,7 @@ function PowerUps() {
   return (
     <Section id="power-ups" title="Power-Ups">
       <div
-        className="relative overflow-hidden rounded-3xl border border-white/10"
+        className="themed-panel relative overflow-hidden rounded-3xl border border-white/10"
         style={{
           background: `radial-gradient(circle at 20% 30%, ${accent}22 0%, transparent 60%), linear-gradient(180deg, #060606 0%, #0a0a0a 100%)`,
         }}
@@ -892,9 +914,11 @@ function BackToTop() {
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 export default function BoxSiegeSite() {
+  useInitTheme();
   return (
     <div className="relative min-h-screen bg-black text-white">
       <AudioControl />
+      <ThemeToggle variant="fixed" />
       <Header />
       <main>
         <Hero />

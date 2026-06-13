@@ -45,8 +45,8 @@ function StatBar({ label, value, max, unit, color, infinite }: StatBarProps) {
   return (
     <div>
       <div className="flex items-baseline justify-between mb-2">
-        <span className="text-[10px] uppercase tracking-[0.3em] text-white/50">{label}</span>
-        <span className="font-display text-2xl text-white">
+        <span className="weapon-stat-label text-[10px] uppercase tracking-[0.3em] text-white/50">{label}</span>
+        <span className="weapon-stat-value font-display text-2xl text-white">
           {infinite ? (
             <svg
               width="36" height="20"
@@ -103,8 +103,8 @@ function DamageStat({ value, }: { value: number; color: string }) {
   return (
     <div>
       <div className="flex items-baseline justify-between mb-2">
-        <span className="text-[10px] uppercase tracking-[0.3em] text-white/50">Damage</span>
-        <span className="font-display text-lg text-white/70">{value}</span>
+        <span className="weapon-stat-label text-[10px] uppercase tracking-[0.3em] text-white/50">Damage</span>
+        <span className="weapon-stat-value-muted font-display text-lg text-white/70">{value}</span>
       </div>
       <div className="flex flex-wrap items-center gap-1.5 min-h-[26px]">
         {hearts.length === 0 ? (
@@ -152,7 +152,7 @@ function MagazineStat({ value, infinite, label = "Magazine" }: { value: number; 
   return (
     <div>
       <div className="flex items-baseline justify-between mb-2">
-        <span className="text-[10px] uppercase tracking-[0.3em] text-white/50">{label}</span>
+        <span className="weapon-stat-label text-[10px] uppercase tracking-[0.3em] text-white/50">{label}</span>
       </div>
       <div className="flex items-center gap-2 min-h-[26px]">
         <motion.img
@@ -166,7 +166,7 @@ function MagazineStat({ value, infinite, label = "Magazine" }: { value: number; 
           style={{ imageRendering: "pixelated" }}
           draggable={false}
         />
-        <span className="font-display text-3xl text-white leading-none">
+        <span className="weapon-stat-value font-display text-3xl text-white leading-none">
           {isInf ? (
             <svg width="36" height="20" viewBox="0 0 36 20" fill="none" style={{ display: "inline-block", verticalAlign: "middle" }}>
               <path
@@ -205,7 +205,7 @@ export function WeaponShowcase() {
 
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* P1 / P2 toggle */}
-          <div className="inline-flex flex-wrap justify-center rounded-full border border-white/15 bg-black/50 backdrop-blur p-1 relative">
+          <div className="weapon-tab-wrapper inline-flex flex-wrap justify-center rounded-full border border-white/15 bg-black/50 backdrop-blur p-1 relative">
             {(["p1", "p2", "p3", "p4"] as const).map((key) => {
               const isActive = faction === key;
               const c = FACTION_TOGGLE_COLOR[key];
@@ -213,7 +213,7 @@ export function WeaponShowcase() {
                 <button
                   key={key}
                   onClick={() => setFaction(key)}
-                  className="relative px-4 md:px-6 py-2 text-xs md:text-sm font-bold uppercase tracking-[0.3em] transition-colors cursor-pointer"
+                  className={`relative px-4 md:px-6 py-2 text-xs md:text-sm font-bold uppercase tracking-[0.3em] transition-colors cursor-pointer${isActive ? "" : " weapon-tab-inactive"}`}
                   style={{ color: isActive ? "#fff" : "rgba(255,255,255,0.5)" }}
                 >
                   {isActive && (
@@ -234,7 +234,7 @@ export function WeaponShowcase() {
 
       {/* Main panel */}
       <div
-        className="relative overflow-hidden rounded-3xl border border-white/10"
+        className="themed-panel relative overflow-hidden rounded-3xl border border-white/10"
         style={{
           background: `radial-gradient(circle at 70% 40%, ${accent}22 0%, transparent 60%), linear-gradient(180deg, #060606 0%, #0a0a0a 100%)`,
         }}
@@ -531,7 +531,7 @@ export function WeaponShowcase() {
                     style={{ imageRendering: "pixelated" }}
                   />
                 </div>
-                <span className={`text-xs uppercase tracking-widest font-bold hidden sm:inline ${isActive ? "text-white" : "text-white/50"}`}>
+                <span className={`text-xs uppercase tracking-widest font-bold hidden sm:inline ${isActive ? "weapon-selector-name-active text-white" : "weapon-selector-name-inactive text-white/50"}`}>
                   {w.name}
                 </span>
               </button>
