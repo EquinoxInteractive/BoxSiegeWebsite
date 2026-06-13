@@ -798,8 +798,9 @@ function DownloadSection() {
           <ul className="space-y-2 mb-8 text-white/80">
             {[
               "OS: Windows 10/11 (64-bit)",
-              "Processor: Intel Core i3/i5",
-              "Memory: 4 GB RAM",
+              "Processor: Dual Core 2GHz",
+              "Memory: 6 GB RAM",
+              "Graphics: 512 MB VRAM",
               "Storage: 500 MB available space",
             ].map(r => (
               <li key={r} className="flex gap-3"><span className="text-[#ff0000]">▸</span>{r}</li>
