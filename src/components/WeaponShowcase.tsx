@@ -488,7 +488,7 @@ export function WeaponShowcase() {
                 <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4">
                   <DamageStat value={melee.damage} color={accent} />
                   <StatBar label="Fire Rate" value={melee.fireRate} max={5} color={accent} />
-                  <StatBar label="Range" value={melee.range} max={10} color={accent} unit="m" />
+                  <StatBar label="Range" value={melee.range} max={10} color={accent} />
                   <MagazineStat value={melee.bullet} color={accent} infinite={melee.bullet === Infinity} label="Bullet" />
                 </div>
               </motion.div>
