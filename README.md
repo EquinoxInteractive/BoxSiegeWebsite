@@ -896,7 +896,7 @@ This project is currently unlicensed. All rights are retained by Equinox Interac
 
 <div align="center">
 
-**Box Siege — Equinox Interactive**
+**Box Siege - Equinox Interactive**
 
 *Small Team. Big Dreams.*
 

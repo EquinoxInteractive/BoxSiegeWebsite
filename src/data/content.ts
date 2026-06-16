@@ -176,6 +176,9 @@ export const POWERUPS: PowerUpData[] = [
     { id: "jump", title: "Jump Boost", img: "/assets/IMG/itempowerup/jumpboost.png", video: "/assets/VIDS/preview/Jump-Preview.mp4", desc: "Player will get a high jump effect for 10 seconds.", duration: "10s", effect: "Jump Height x2", accent: "#2ca0e9" },
     { id: "heal", title: "Heal", img: "/assets/IMG/itempowerup/health.png", video: "/assets/VIDS/preview/Heal-Preview.mp4", desc: "Player regains one health bar. Does nothing if at full health.", duration: "Instant", effect: "+1 Health", accent: "#ff0000" },
     { id: "shield", title: "Shield", img: "/assets/IMG/itempowerup/perisai.png", video: "/assets/VIDS/preview/Shield-Preview.mp4", desc: "Player will get 2 shields with no time limit.", duration: "7s", effect: "+2 Shields", accent: "#919191" },
+    { id: "swap-position", title: "Swap Position", img: "/assets/IMG/itempowerup/swap-position.png", video: "/assets/VIDS/preview/SwapPosition.mp4", desc: "Allows the player to swap positions (randomly) with another player. Once picked up, the player has 3 seconds to activate it by pressing the shoot button.", duration: "3s", effect: "Swap Positions", accent: "#8dd558" },
+    { id: "ammo-refill", title: "Ammo Refill", img: "/assets/IMG/itempowerup/Bullet.png", video: "/assets/VIDS/preview/AmmoRefill.mp4", desc: "Instantly refills the player's ammunition, resetting the magazine back to full.", duration: "Instant", effect: "Refill Ammo", accent: "#fedf2d" },
+    { id: "invisible", title: "Invisible", img: "/assets/IMG/itempowerup/invisible.png", video: "/assets/VIDS/preview/Invisible.mp4", desc: "Makes the player completely invisible to opponents for 3 seconds, perfect for sneaking or escaping.", duration: "3s", effect: "Temporary Invisibility", accent: "#ff2714" },
 ];
 
 // ─── MELEE ───────────────────────────────────────────────────────────────────
