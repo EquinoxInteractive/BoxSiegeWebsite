@@ -150,6 +150,7 @@ export type MapData = {
     full: string;
     biome: string;
     accent: string;
+    notices?: string[];
 };
 
 export const MAPS: MapData[] = [
@@ -157,6 +158,8 @@ export const MAPS: MapData[] = [
     { id: "hell", name: "The Hell", thumb: "/assets/IMG/stage/hell.png", full: "/assets/IMG/stage in game/hell.png", biome: "Hell", accent: "#630f0f" },
     { id: "snow", name: "The Snow", thumb: "/assets/IMG/stage/snow.png", full: "/assets/IMG/stage in game/snow.png", biome: "Snow", accent: "#4da6ff" },
     { id: "desert", name: "The Desert", thumb: "/assets/IMG/stage/dessert.png", full: "/assets/IMG/stage in game/dessert.png", biome: "Desert", accent: "#ffb570" },
+    { id: "jungle", name: "The Jungle", thumb: "/assets/IMG/stage/jungle.png", full: "/assets/IMG/stage in game/jungle.png", biome: "Jungle", accent: "#2f634d", notices: ["Moving Objects"] },
+    { id: "safari", name: "The Safari", thumb: "/assets/IMG/stage/safari.png", full: "/assets/IMG/stage in game/safari.png", biome: "Safari", accent: "#d2a25e", notices: ["Moving Objects", "Falling Objects", "Damage Objects"] },
 ];
 
 // ─── POWER UPS ───────────────────────────────────────────────────────────────

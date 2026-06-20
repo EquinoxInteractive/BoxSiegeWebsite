@@ -424,6 +424,25 @@ function Maps() {
                     </div>
                   ))}
                 </div>
+
+                {map.notices && map.notices.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
+                    className="mt-5"
+                  >
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-white/50 mb-2">Notices</p>
+                    <ul className="space-y-1.5">
+                      {map.notices.map((notice, idx) => (
+                        <li key={idx} className="flex items-center gap-2 text-sm text-white/80">
+                          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: accent }} />
+                          {notice}
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
