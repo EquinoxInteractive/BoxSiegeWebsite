@@ -160,6 +160,7 @@ export const MAPS: MapData[] = [
     { id: "desert", name: "The Desert", thumb: "/assets/IMG/stage/dessert.png", full: "/assets/IMG/stage in game/dessert.png", biome: "Desert", accent: "#ffb570" },
     { id: "jungle", name: "The Jungle", thumb: "/assets/IMG/stage/jungle.png", full: "/assets/IMG/stage in game/jungle.png", biome: "Jungle", accent: "#2f634d", notices: ["Moving Objects"] },
     { id: "safari", name: "The Safari", thumb: "/assets/IMG/stage/safari.png", full: "/assets/IMG/stage in game/safari.png", biome: "Safari", accent: "#d2a25e", notices: ["Moving Objects", "Falling Objects", "Damage Objects"] },
+    { id: "tample", name: "The Tample", thumb: "/assets/IMG/stage/tample.png", full: "/assets/IMG/stage in game/tample.png", biome: "Tample", accent: "#3f6e52", notices: ["Moving Objects", "Damage Objects"] },
 ];
 
 // ─── POWER UPS ───────────────────────────────────────────────────────────────
