@@ -386,3 +386,11 @@
     background: linear-gradient(#ff0000, #00f1ff);
     border-radius: 10px;
 }
+/* Hide scrollbar but keep functionality (used in horizontal-scroll selectors) */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

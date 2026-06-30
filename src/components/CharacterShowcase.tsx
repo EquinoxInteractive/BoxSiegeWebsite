@@ -206,14 +206,17 @@ export function CharacterShowcase() {
         </div>
 
         {/* Selector */}
-        <div className="relative grid grid-cols-4 border-t border-white/10">
+        <div
+          className="relative flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth border-t border-white/10 no-scrollbar"
+          style={{ gridTemplateColumns: `repeat(${list.length}, minmax(0, 1fr))` }}
+        >
           {list.map((c, i) => {
             const isActive = i === active;
             return (
               <button
                 key={c.id}
                 onClick={() => setActive(i)}
-                className="group relative p-4 md:p-6 flex flex-col items-center gap-2 transition-all cursor-pointer"
+                className="group relative p-4 md:p-6 flex flex-col items-center gap-2 transition-all cursor-pointer shrink-0 snap-start min-w-[100px] md:min-w-0"
                 style={{
                   background: isActive ? `linear-gradient(180deg, ${c.color}22, transparent)` : "transparent",
                 }}
@@ -237,7 +240,7 @@ export function CharacterShowcase() {
                     style={{ imageRendering: "pixelated" }}
                   />
                 </div>
-                <span className={`text-xs uppercase tracking-widest font-bold ${isActive ? "char-selector-name-active text-white" : "char-selector-name-inactive text-white/50"}`}>
+                <span className={`text-xs uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "char-selector-name-active text-white" : "char-selector-name-inactive text-white/50"}`}>
                   {c.name}
                 </span>
               </button>

@@ -530,7 +530,7 @@ function Maps() {
 
         {/* Selector */}
         <div
-          className="relative grid border-t border-white/10"
+          className="relative flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth border-t border-white/10 no-scrollbar"
           style={{ gridTemplateColumns: `repeat(${MAPS.length}, minmax(0, 1fr))` }}
         >
           {MAPS.map((m, i) => {
@@ -539,7 +539,7 @@ function Maps() {
               <button
                 key={m.id}
                 onClick={() => setActive(i)}
-                className="group relative p-4 md:p-5 flex items-center justify-center gap-3 cursor-pointer transition-all"
+                className="group relative p-4 md:p-5 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 cursor-pointer transition-all shrink-0 snap-start min-w-[110px] md:min-w-0"
                 style={{
                   background: isActive ? `linear-gradient(180deg, ${m.accent}22, transparent)` : "transparent",
                 }}
@@ -552,7 +552,7 @@ function Maps() {
                   />
                 )}
                 <div
-                  className={`w-14 h-10 md:w-16 md:h-11 rounded-md overflow-hidden border transition-all ${
+                  className={`w-20 h-14 md:w-16 md:h-11 rounded-md overflow-hidden border transition-all ${
                     isActive ? "border-white/30 scale-105" : "border-white/10 opacity-60 group-hover:opacity-100"
                   }`}
                 >
@@ -563,7 +563,7 @@ function Maps() {
                     style={{ imageRendering: "pixelated" }}
                   />
                 </div>
-                <span className={`text-xs uppercase tracking-widest font-bold hidden sm:inline ${isActive ? "text-white" : "text-white/50"}`}>
+                <span className={`text-[10px] md:text-xs uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "text-white" : "text-white/50"}`}>
                   {m.name}
                 </span>
               </button>
@@ -758,7 +758,7 @@ function PowerUps() {
 
         {/* Selector */}
         <div
-          className="relative grid border-t border-white/10"
+          className="relative flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth border-t border-white/10 no-scrollbar"
           style={{ gridTemplateColumns: `repeat(${POWERUPS.length}, minmax(0, 1fr))` }}
         >
           {POWERUPS.map((p, i) => {
@@ -767,7 +767,7 @@ function PowerUps() {
               <button
                 key={p.id}
                 onClick={() => setActive(i)}
-                className="group relative p-3 md:p-4 cursor-pointer transition-all"
+                className="group relative p-3 md:p-4 cursor-pointer transition-all shrink-0 snap-start min-w-[130px] md:min-w-0"
                 style={{
                   background: isActive ? `linear-gradient(180deg, ${p.accent}22, transparent)` : "transparent",
                 }}
@@ -789,7 +789,7 @@ function PowerUps() {
                     style={{ imageRendering: "pixelated" }}
                   />
                 </div>
-                <p className={`mt-2 text-[11px] uppercase tracking-widest font-bold ${isActive ? "text-white" : "text-white/50"}`}>
+                <p className={`mt-2 text-[11px] uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "text-white" : "text-white/50"}`}>
                   {p.title}
                 </p>
               </button>

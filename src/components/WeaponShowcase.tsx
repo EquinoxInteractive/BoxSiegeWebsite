@@ -498,7 +498,7 @@ export function WeaponShowcase() {
 
         {/* Selector — primary weapons only */}
         <div
-          className="relative grid border-t border-white/10"
+          className="relative flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth border-t border-white/10 no-scrollbar"
           style={{ gridTemplateColumns: `repeat(${list.length}, minmax(0, 1fr))` }}
         >
           {list.map((w, i) => {
@@ -507,7 +507,7 @@ export function WeaponShowcase() {
               <button
                 key={w.id}
                 onClick={() => setActive(i)}
-                className="group relative p-4 md:p-6 flex items-center justify-center gap-3 transition-all cursor-pointer"
+                className="group relative p-4 md:p-6 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 transition-all cursor-pointer shrink-0 snap-start min-w-[110px] md:min-w-0"
                 style={{
                   background: isActive ? `linear-gradient(180deg, ${accent}22, transparent)` : "transparent",
                 }}
@@ -520,7 +520,7 @@ export function WeaponShowcase() {
                   />
                 )}
                 <div
-                  className={`w-14 h-14 md:w-16 md:h-16 flex items-center justify-center transition-transform ${
+                  className={`w-16 h-16 md:w-16 md:h-16 flex items-center justify-center transition-transform ${
                     isActive ? "scale-110" : "opacity-60 group-hover:opacity-100"
                   }`}
                 >
@@ -531,7 +531,7 @@ export function WeaponShowcase() {
                     style={{ imageRendering: "pixelated" }}
                   />
                 </div>
-                <span className={`text-xs uppercase tracking-widest font-bold hidden sm:inline ${isActive ? "weapon-selector-name-active text-white" : "weapon-selector-name-inactive text-white/50"}`}>
+                <span className={`text-[10px] md:text-xs uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "weapon-selector-name-active text-white" : "weapon-selector-name-inactive text-white/50"}`}>
                   {w.name}
                 </span>
               </button>
