@@ -529,46 +529,46 @@ function Maps() {
         </div>
 
         {/* Selector */}
-        <div
-          className="relative flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth border-t border-white/10 no-scrollbar"
-          style={{ gridTemplateColumns: `repeat(${MAPS.length}, minmax(0, 1fr))` }}
-        >
-          {MAPS.map((m, i) => {
-            const isActive = i === active;
-            return (
-              <button
-                key={m.id}
-                onClick={() => setActive(i)}
-                className="group relative p-4 md:p-5 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 cursor-pointer transition-all shrink-0 snap-start min-w-[110px] md:min-w-0"
-                style={{
-                  background: isActive ? `linear-gradient(180deg, ${m.accent}22, transparent)` : "transparent",
-                }}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="map-active"
-                    className="absolute top-0 left-0 right-0 h-[3px]"
-                    style={{ background: m.accent, boxShadow: `0 0 12px ${m.accent}` }}
-                  />
-                )}
-                <div
-                  className={`w-20 h-14 md:w-16 md:h-11 rounded-md overflow-hidden border transition-all ${
-                    isActive ? "border-white/30 scale-105" : "border-white/10 opacity-60 group-hover:opacity-100"
-                  }`}
+        <div className="relative border-t border-white/10 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar">
+          <div className="flex items-stretch justify-start md:justify-center min-w-min">
+            {MAPS.map((m, i) => {
+              const isActive = i === active;
+              return (
+                <button
+                  key={m.id}
+                  onClick={() => setActive(i)}
+                  className="group relative shrink-0 snap-start w-[128px] md:w-[140px] p-3 md:p-4 flex flex-col items-center justify-start gap-2 cursor-pointer transition-all"
+                  style={{
+                    background: isActive ? `linear-gradient(180deg, ${m.accent}22, transparent)` : "transparent",
+                  }}
                 >
-                  <img
-                    src={m.thumb}
-                    alt={m.name}
-                    className="w-full h-full object-cover"
-                    style={{ imageRendering: "pixelated" }}
-                  />
-                </div>
-                <span className={`text-[10px] md:text-xs uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "text-white" : "text-white/50"}`}>
-                  {m.name}
-                </span>
-              </button>
-            );
-          })}
+                  {isActive && (
+                    <motion.div
+                      layoutId="map-active"
+                      className="absolute top-0 left-0 right-0 h-[3px]"
+                      style={{ background: m.accent, boxShadow: `0 0 12px ${m.accent}` }}
+                    />
+                  )}
+                  <div
+                    className={`w-full aspect-[16/10] rounded-md overflow-hidden border flex items-center justify-center transition-all ${
+                      isActive ? "border-white/30 scale-105" : "border-white/10 opacity-60 group-hover:opacity-100"
+                    }`}
+                    style={{ background: `radial-gradient(circle at 50% 50%, ${m.accent}22, rgba(0,0,0,0.4) 80%)` }}
+                  >
+                    <img
+                      src={m.thumb}
+                      alt={m.name}
+                      className="max-w-full max-h-full object-contain"
+                      style={{ imageRendering: "pixelated" }}
+                    />
+                  </div>
+                  <span className={`text-[10px] md:text-xs uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "text-white" : "text-white/50"}`}>
+                    {m.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -757,44 +757,43 @@ function PowerUps() {
         </div>
 
         {/* Selector */}
-        <div
-          className="relative flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth border-t border-white/10 no-scrollbar"
-          style={{ gridTemplateColumns: `repeat(${POWERUPS.length}, minmax(0, 1fr))` }}
-        >
-          {POWERUPS.map((p, i) => {
-            const isActive = i === active;
-            return (
-              <button
-                key={p.id}
-                onClick={() => setActive(i)}
-                className="group relative p-3 md:p-4 cursor-pointer transition-all shrink-0 snap-start min-w-[130px] md:min-w-0"
-                style={{
-                  background: isActive ? `linear-gradient(180deg, ${p.accent}22, transparent)` : "transparent",
-                }}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="powerup-active"
-                    className="absolute top-0 left-0 right-0 h-[3px]"
-                    style={{ background: p.accent, boxShadow: `0 0 12px ${p.accent}` }}
-                  />
-                )}
-                <div className={`relative w-full aspect-video rounded-md overflow-hidden border flex items-center justify-center ${isActive ? "border-white/30" : "border-white/10 opacity-60 group-hover:opacity-100"} transition-all`}
-                  style={{ background: `radial-gradient(circle at 50% 50%, ${p.accent}22, transparent 70%)` }}
+        <div className="relative border-t border-white/10 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar">
+          <div className="flex items-stretch justify-start md:justify-center min-w-min">
+            {POWERUPS.map((p, i) => {
+              const isActive = i === active;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => setActive(i)}
+                  className="group relative shrink-0 snap-start w-[132px] md:w-[144px] p-3 md:p-4 flex flex-col items-center justify-start gap-2 cursor-pointer transition-all"
+                  style={{
+                    background: isActive ? `linear-gradient(180deg, ${p.accent}22, transparent)` : "transparent",
+                  }}
                 >
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    className="max-w-[60%] max-h-[80%] object-contain"
-                    style={{ imageRendering: "pixelated" }}
-                  />
-                </div>
-                <p className={`mt-2 text-[11px] uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "text-white" : "text-white/50"}`}>
-                  {p.title}
-                </p>
-              </button>
-            );
-          })}
+                  {isActive && (
+                    <motion.div
+                      layoutId="powerup-active"
+                      className="absolute top-0 left-0 right-0 h-[3px]"
+                      style={{ background: p.accent, boxShadow: `0 0 12px ${p.accent}` }}
+                    />
+                  )}
+                  <div className={`relative w-full aspect-square rounded-md overflow-hidden border flex items-center justify-center transition-all ${isActive ? "border-white/30 scale-105" : "border-white/10 opacity-60 group-hover:opacity-100"}`}
+                    style={{ background: `radial-gradient(circle at 50% 50%, ${p.accent}22, transparent 70%)` }}
+                  >
+                    <img
+                      src={p.img}
+                      alt={p.title}
+                      className="max-w-[70%] max-h-[70%] object-contain"
+                      style={{ imageRendering: "pixelated" }}
+                    />
+                  </div>
+                  <p className={`text-[11px] uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "text-white" : "text-white/50"}`}>
+                    {p.title}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </Section>

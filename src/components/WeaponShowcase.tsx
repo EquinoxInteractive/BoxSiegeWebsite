@@ -497,46 +497,45 @@ export function WeaponShowcase() {
         </div>
 
         {/* Selector — primary weapons only */}
-        <div
-          className="relative flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth border-t border-white/10 no-scrollbar"
-          style={{ gridTemplateColumns: `repeat(${list.length}, minmax(0, 1fr))` }}
-        >
-          {list.map((w, i) => {
-            const isActive = i === active;
-            return (
-              <button
-                key={w.id}
-                onClick={() => setActive(i)}
-                className="group relative p-4 md:p-6 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 transition-all cursor-pointer shrink-0 snap-start min-w-[110px] md:min-w-0"
-                style={{
-                  background: isActive ? `linear-gradient(180deg, ${accent}22, transparent)` : "transparent",
-                }}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId={`wpn-active-${faction}`}
-                    className="absolute top-0 left-0 right-0 h-[3px]"
-                    style={{ background: accent, boxShadow: `0 0 12px ${accent}` }}
-                  />
-                )}
-                <div
-                  className={`w-16 h-16 md:w-16 md:h-16 flex items-center justify-center transition-transform ${
-                    isActive ? "scale-110" : "opacity-60 group-hover:opacity-100"
-                  }`}
+        <div className="relative border-t border-white/10 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar">
+          <div className="flex items-stretch justify-start md:justify-center min-w-min">
+            {list.map((w, i) => {
+              const isActive = i === active;
+              return (
+                <button
+                  key={w.id}
+                  onClick={() => setActive(i)}
+                  className="group relative shrink-0 snap-start w-[120px] md:w-[136px] p-3 md:p-5 flex flex-col items-center justify-start gap-2 transition-all cursor-pointer"
+                  style={{
+                    background: isActive ? `linear-gradient(180deg, ${accent}22, transparent)` : "transparent",
+                  }}
                 >
-                  <img
-                    src={w.image}
-                    alt={w.name}
-                    className="max-w-full max-h-full object-contain"
-                    style={{ imageRendering: "pixelated" }}
-                  />
-                </div>
-                <span className={`text-[10px] md:text-xs uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "weapon-selector-name-active text-white" : "weapon-selector-name-inactive text-white/50"}`}>
-                  {w.name}
-                </span>
-              </button>
-            );
-          })}
+                  {isActive && (
+                    <motion.div
+                      layoutId={`wpn-active-${faction}`}
+                      className="absolute top-0 left-0 right-0 h-[3px]"
+                      style={{ background: accent, boxShadow: `0 0 12px ${accent}` }}
+                    />
+                  )}
+                  <div
+                    className={`w-16 h-16 md:w-20 md:h-20 flex items-center justify-center transition-transform ${
+                      isActive ? "scale-110" : "opacity-60 group-hover:opacity-100"
+                    }`}
+                  >
+                    <img
+                      src={w.image}
+                      alt={w.name}
+                      className="max-w-full max-h-full object-contain"
+                      style={{ imageRendering: "pixelated" }}
+                    />
+                  </div>
+                  <span className={`text-[10px] md:text-xs uppercase tracking-widest font-bold whitespace-nowrap ${isActive ? "weapon-selector-name-active text-white" : "weapon-selector-name-inactive text-white/50"}`}>
+                    {w.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
