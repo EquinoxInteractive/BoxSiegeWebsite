@@ -52,19 +52,6 @@
         overflow-x: hidden;
         transition: background 0.4s ease, color 0.4s ease;
     }
-    /* ═══════════════════════════════════════════════════════════════
-       LIGHT THEME  —  Warm Pearl / Cream
-       Palette:
-         bg base      #f2f0eb  warm off-white (not cold grey)
-         bg surface   #ede9e1  slightly darker warm cream
-         panel        #ffffff  with subtle warm shadow
-         text primary #1a1612  warm near-black
-         text muted   #6b6560  warm mid-grey
-         text faint   #a09890  light warm grey
-         accent red   #c8002a  deep crimson (more refined than pure #ff0000)
-         accent cyan  #007a8a  deep teal (muted version of #00f1ff)
-         border       rgba(26,22,18, 0.10)
-    ═══════════════════════════════════════════════════════════════ */
 
     html.light body {
         background: linear-gradient(160deg, #f2f0eb 0%, #e8e4da 50%, #ede9e1 100%);
@@ -288,9 +275,6 @@
     }
     ::view-transition-old(root) { z-index: 1; }
     ::view-transition-new(root) { z-index: 2; }
-    /* Fit the desktop layout (designed for 1920x1080) onto smaller
-       desktop monitors such as 1366x768 — scales every element,
-       including fixed-position modals, so nothing overflows. */
     @media (min-width: 1024px) and (max-width: 1500px) {
         html {
             zoom: 0.82;
