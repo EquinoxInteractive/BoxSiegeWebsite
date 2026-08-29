@@ -77,7 +77,7 @@ export function ThemeToggle({ variant = "fixed", className = "" }: Props) {
   const baseFixed =
     "hidden md:flex fixed top-5 right-[76px] z-[1100] w-12 h-12 rounded-full border border-white/20 bg-black/60 backdrop-blur items-center justify-center hover:scale-110 transition-transform cursor-pointer themed-toggle";
   const baseInline =
-    "md:hidden relative w-10 h-10 flex items-center justify-center rounded-md border border-white/15 bg-black/40 hover:border-[#00f1ff]/60 transition-colors cursor-pointer themed-toggle";
+    "md:hidden relative w-10 h-10 flex items-center justify-center rounded-md border border-white/15 bg-black/40 hover:border-[#e5303f]/60 transition-colors cursor-pointer themed-toggle";
 
   const cls = variant === "fixed" ? baseFixed : baseInline;
 

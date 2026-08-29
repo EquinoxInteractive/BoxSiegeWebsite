@@ -136,7 +136,7 @@ function Header() {
   }, []);
 
   return (
-    <header className={`fixed top-0 inset-x-0 z-[1000] transition-all ${scrolled ? "bg-black/90 backdrop-blur border-b border-white/10" : "bg-gradient-to-b from-black/70 to-transparent"}`}>
+    <header className={`fixed top-0 inset-x-0 z-[1000] transition-all ${scrolled ? "bg-black/90 backdrop-blur border-b border-white/10" : "bg-black/50"}`}>
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
         <a href="#home" className="font-display text-xl md:text-3xl text-gradient">BOX SIEGE</a>
         <ul className="hidden md:flex gap-7 text-sm uppercase tracking-widest font-semibold">
@@ -144,7 +144,7 @@ function Header() {
             const isActive = active === n.id;
             return (
               <li key={n.id}>
-                <a href={`#${n.id}`} className={`relative transition-colors group ${isActive ? "text-[#00f1ff]" : "text-white/80 hover:text-[#00f1ff]"}`}>
+                <a href={`#${n.id}`} className={`relative transition-colors group ${isActive ? "text-[#e5303f]" : "text-white/80 hover:text-[#e5303f]"}`}>
                   {n.label}
                   <span className={`absolute -bottom-1 left-0 h-[2px] bg-gradient-brand transition-all ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
                 </a>
@@ -155,7 +155,7 @@ function Header() {
         <div className="md:hidden flex items-center gap-2">
           <ThemeToggle variant="inline" />
           <button
-            className="relative w-10 h-10 flex items-center justify-center text-white rounded-md border border-white/15 bg-black/40 hover:border-[#00f1ff]/60 transition-colors cursor-pointer"
+            className="relative w-10 h-10 flex items-center justify-center text-white rounded-md border border-white/15 bg-black/40 hover:border-[#e5303f]/60 transition-colors cursor-pointer"
             onClick={() => setOpen(!open)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -192,7 +192,7 @@ function Header() {
               <li key={n.id} className="border-b border-white/5">
                 <button
                   onClick={() => handleMobileNav(n.id)}
-                  className={`w-full flex items-center gap-3 px-6 py-4 uppercase tracking-widest text-sm transition-colors cursor-pointer text-left ${active === n.id ? "text-[#00f1ff] bg-white/5" : "text-white/80"}`}
+                  className={`w-full flex items-center gap-3 px-6 py-4 uppercase tracking-widest text-sm transition-colors cursor-pointer text-left ${active === n.id ? "text-[#e5303f] bg-white/5" : "text-white/80"}`}
                 >
                   <span className={`h-4 w-[3px] rounded-full transition-all ${active === n.id ? "bg-gradient-brand opacity-100" : "opacity-0"}`} />
                   {n.label}
@@ -218,13 +218,13 @@ function Hero() {
       <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover brightness-[0.4]">
         <source src="/assets/VIDS/BG.mp4" type="video/mp4" />
       </video>
-      <div className="themed-hero-overlay absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
+      <div className="themed-hero-overlay absolute inset-0 bg-black/45" />
       <div className="absolute inset-0 scanline-overlay opacity-40" />
 
       <motion.div style={{ y, opacity }} className="relative z-10 text-center px-6">
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="uppercase tracking-[0.6em] text-xs md:text-sm text-[#00f1ff]"
+          className="uppercase tracking-[0.6em] text-xs md:text-sm text-[#e5303f]"
         >
           A PVP CO-OP 2D
         </motion.p>
@@ -249,7 +249,7 @@ function Hero() {
             <Download className="w-4 h-4" /> Download Game
           </a>
           <a href="#characters"
-             className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/30 hover:border-[#00f1ff] hover:text-[#00f1ff] font-bold uppercase tracking-widest text-sm transition-colors">
+             className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/30 hover:border-[#e5303f] hover:text-[#e5303f] font-bold uppercase tracking-widest text-sm transition-colors">
             Meet the Roster
           </a>
         </motion.div>
@@ -278,7 +278,7 @@ function Section({ id, title, kicker, children }: { id?: string; title: string; 
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          {kicker && <p className="uppercase tracking-[0.5em] text-xs text-[#00f1ff] mb-3">{kicker}</p>}
+          {kicker && <p className="uppercase tracking-[0.5em] text-xs text-[#e5303f] mb-3">{kicker}</p>}
           <h2 className="font-display text-5xl md:text-7xl text-gradient">{title}</h2>
         </motion.div>
         {children}
@@ -300,9 +300,9 @@ function Features() {
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.5 }}
             whileHover={{ y: -6 }}
-            className="group relative p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent hover:border-[#00f1ff]/50 transition-colors"
+            className="group relative p-8 rounded-2xl border border-white/10 bg-white/5 hover:border-[#e5303f]/50 transition-colors"
           >
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#ff0000]/10 to-[#00f1ff]/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 rounded-2xl bg-[#e5303f]/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="w-14 h-14 rounded-xl bg-gradient-brand flex items-center justify-center mb-6">
                 <f.icon className="w-7 h-7 text-white" />
@@ -379,7 +379,7 @@ function Maps() {
       <div
         className="themed-panel relative overflow-hidden rounded-3xl border border-white/10"
         style={{
-          background: `radial-gradient(circle at 75% 30%, ${accent}22 0%, transparent 60%), linear-gradient(180deg, #060606 0%, #0a0a0a 100%)`,
+          background: `radial-gradient(circle at 75% 30%, ${accent}22 0%, transparent 60%), #080808`,
         }}
       >
         {/* Background callsign */}
@@ -609,7 +609,7 @@ function PowerUps() {
       <div
         className="themed-panel relative overflow-hidden rounded-3xl border border-white/10"
         style={{
-          background: `radial-gradient(circle at 20% 30%, ${accent}22 0%, transparent 60%), linear-gradient(180deg, #060606 0%, #0a0a0a 100%)`,
+          background: `radial-gradient(circle at 20% 30%, ${accent}22 0%, transparent 60%), #080808`,
         }}
       >
         {/* Background callsign */}
@@ -702,7 +702,7 @@ function PowerUps() {
                 />
               </AnimatePresence>
 
-              <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex items-end justify-between gap-4">
+              <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-black/60 flex items-end justify-between gap-4">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.4em] flex items-center gap-2" style={{ color: accent }}>
                     <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: accent }} />
@@ -812,7 +812,7 @@ function DownloadSection() {
           <p className="text-white/70 mb-6 leading-relaxed">
             Immerse yourself in the ultimate PvP co-op 2D experience with Box Siege, exclusively available for Windows PC.
           </p>
-          <h4 className="font-display text-xl text-[#00f1ff] mb-3">Minimum Requirements</h4>
+          <h4 className="font-display text-xl text-[#e5303f] mb-3">Minimum Requirements</h4>
           <ul className="space-y-2 mb-8 text-white/80">
             {[
               "OS: Windows 10/11 (64-bit)",
@@ -824,7 +824,7 @@ function DownloadSection() {
               <li key={r} className="flex gap-3"><span className="text-[#ff0000]">▸</span>{r}</li>
             ))}
           </ul>
-          <a href="assets/GAME/BoxSiege.zip" download
+          <a href="https://github.com/EquinoxInteractive/BoxSiege/releases/download/Game/BOX-SIEGE.zip"
              className="shimmer relative overflow-hidden inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-brand font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform glow-brand">
             <Download className="w-5 h-5" />
             <div className="text-left leading-tight">
@@ -876,15 +876,15 @@ function Footer() {
         <p className="font-display text-3xl text-gradient mb-6">EQUINOX INTERACTIVE</p>
         <div className="flex justify-center gap-6 mb-6 flex-wrap">
           <a href="https://www.tiktok.com/@equinox.interactive" target="_blank" rel="noreferrer"
-             className="inline-flex items-center gap-2 text-white/70 hover:text-[#00f1ff] transition-colors">
+             className="inline-flex items-center gap-2 text-white/70 hover:text-[#e5303f] transition-colors">
             <TikTokIcon className="w-4 h-4" /> TikTok
           </a>
           <a href="https://www.instagram.com/equinox.interactive/" target="_blank" rel="noreferrer"
-             className="inline-flex items-center gap-2 text-white/70 hover:text-[#00f1ff] transition-colors">
+             className="inline-flex items-center gap-2 text-white/70 hover:text-[#e5303f] transition-colors">
             <InstagramIcon className="w-4 h-4" /> Instagram
           </a>
           <a href="https://x.com/EquinoxIntratve" target="_blank" rel="noreferrer"
-             className="inline-flex items-center gap-2 text-white/70 hover:text-[#00f1ff] transition-colors">
+             className="inline-flex items-center gap-2 text-white/70 hover:text-[#e5303f] transition-colors">
             <XIcon className="w-4 h-4" /> X
           </a>
         </div>
@@ -922,7 +922,7 @@ function BackToTop() {
           transition={{ duration: 0.25 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
-          className="fixed bottom-6 right-6 z-50 cursor-pointer rounded-full p-3 md:p-4 bg-gradient-brand text-black shadow-lg glow-brand hover:scale-110 transition-transform"
+          className="fixed bottom-6 right-6 z-50 cursor-pointer rounded-full p-3 md:p-4 bg-gradient-brand text-white shadow-lg glow-brand hover:scale-110 transition-transform"
         >
           <ArrowUp className="w-5 h-5 md:w-6 md:h-6" strokeWidth={3} />
         </motion.button>
