@@ -154,7 +154,6 @@ export function PlatformCards() {
           <li key={p.id}><PlatformCard p={p} index={i} /></li>
         ))}
       </ul>
-      {anySoon && <p className="mt-9 text-center text-sm text-white/50">Builds marked “Coming soon” are still in the works. They will unlock here as soon as they are released.</p>}
     </div>
   );
 }

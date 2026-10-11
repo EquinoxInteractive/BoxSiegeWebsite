@@ -295,7 +295,7 @@ function Layout() {
         className="pointer-events-none fixed inset-0 z-[61] grid place-items-center motion-reduce:hidden"
         style={{ opacity: 0, visibility: "hidden" }}
       >
-        <img src="/assets/ui/title.webp" alt="" className="px animate-bob w-48 sm:w-60" draggable={false} />
+        <img src="/assets/ui/title.webp" alt="" className="px animate-bob w-60 max-w-[80vw] sm:w-80" draggable={false} />
       </div>
 
       <main ref={mainRef} tabIndex={-1} className="outline-none">
