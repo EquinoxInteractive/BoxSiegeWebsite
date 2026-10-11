@@ -68,7 +68,7 @@ function PlatformCard({ p, index }: { p: Platform; index: number }) {
 
   return (
     <Reveal delay={index * 0.09} className="h-full">
-      <div className="panel relative flex h-full flex-col overflow-hidden p-6 md:p-7" style={{ ["--accent" as string]: p.accent }}>
+      <div className="panel relative flex h-full flex-col overflow-hidden p-5 sm:p-6 md:p-7" style={{ ["--accent" as string]: p.accent }}>
         {/* accent edge + glow */}
         <span className="absolute inset-x-0 top-0 h-1" style={{ background: p.accent, opacity: soon ? 0.35 : 1 }} />
         <span className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full blur-3xl" style={{ background: p.accent, opacity: soon ? 0.08 : 0.2 }} />
@@ -87,7 +87,7 @@ function PlatformCard({ p, index }: { p: Platform; index: number }) {
           )}
         </div>
 
-        <h3 className="relative mt-5 font-display text-5xl leading-none" style={{ textShadow: "0 4px 0 #000" }}>{p.name}</h3>
+        <h3 className="relative mt-4 font-display text-[2.6rem] leading-none sm:mt-5 sm:text-5xl" style={{ textShadow: "0 4px 0 #000" }}>{p.name}</h3>
         <p className="relative mt-2 text-sm text-white/65">{p.detail}</p>
 
         <dl className="relative mt-5 grid grid-cols-2 gap-3 text-sm">

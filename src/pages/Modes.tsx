@@ -40,7 +40,7 @@ export function Modes() {
   return (
     <Page id="modes" title="Pick your mode"
       intro="Whether you have friends on the couch or a free evening alone, BOX SIEGE has a mode built for it.">
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
         {MODES.map((m) => {
           const on = m.id === active;
           const I = m.icon;
@@ -51,13 +51,13 @@ export function Modes() {
               onMouseEnter={() => sfx("ui_hover", 0.1)}
               whileHover={{ y: -6 }}
               whileTap={{ scale: 0.97 }}
-              className="panel relative p-5 text-left cursor-pointer overflow-hidden"
+              className="panel relative cursor-pointer overflow-hidden p-4 text-left sm:p-5"
               style={{ borderColor: on ? m.color : undefined, boxShadow: on ? `0 0 0 1px ${m.color}, 0 20px 50px -20px ${m.color}` : undefined }}
             >
               <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full blur-2xl transition-opacity" style={{ background: m.color, opacity: on ? 0.5 : 0.12 }} />
               <I className="relative w-8 h-8" style={{ color: m.color }} />
-              <p className="relative font-display text-3xl mt-3">{m.title}</p>
-              <p className="relative font-ui text-[11px] uppercase tracking-widest text-white/55">{m.tag}</p>
+              <p className="relative mt-2 font-display text-[1.7rem] leading-none sm:mt-3 sm:text-3xl">{m.title}</p>
+              <p className="relative mt-1 font-ui text-[10px] uppercase tracking-wider text-white/55 sm:text-[11px] sm:tracking-widest">{m.tag}</p>
             </motion.button>
           );
         })}
@@ -67,7 +67,7 @@ export function Modes() {
         <motion.div
           key={mode.id}
           initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.4 }}
-          className="panel mt-5 grid items-center gap-8 overflow-hidden p-6 md:grid-cols-2 md:p-10"
+          className="panel mt-4 grid items-center gap-6 overflow-hidden p-5 sm:mt-5 sm:p-6 md:grid-cols-2 md:gap-8 md:p-10"
           style={{ ["--accent" as string]: mode.color }}
         >
           <div>
@@ -75,7 +75,7 @@ export function Modes() {
               <Icon className="w-7 h-7" style={{ color: mode.color }} />
               <h3 className="font-display text-4xl md:text-5xl">{mode.title}</h3>
             </div>
-            <p className="mt-4 text-white/75 leading-relaxed text-lg">{mode.text}</p>
+            <p className="mt-4 text-base leading-relaxed text-white/75 sm:text-lg">{mode.text}</p>
             <ul className="mt-5 grid gap-2">
               {mode.bullets.map((b) => (
                 <li key={b} className="flex items-start gap-3 text-white/85">
@@ -84,13 +84,13 @@ export function Modes() {
               ))}
             </ul>
           </div>
-          <div className="relative flex min-h-[230px] items-end justify-center gap-4 rounded-2xl p-6" style={{ background: `linear-gradient(180deg, ${mode.color}22, transparent), url(${ARENAS[(MODES.indexOf(mode) * 3) % 10].bg}) center/cover`, imageRendering: "pixelated" }}>
+          <div className="relative flex min-h-[200px] items-end justify-center gap-2 rounded-2xl p-4 sm:min-h-[230px] sm:gap-4 sm:p-6" style={{ background: `linear-gradient(180deg, ${mode.color}22, transparent), url(${ARENAS[(MODES.indexOf(mode) * 3) % 10].bg}) center/cover`, imageRendering: "pixelated" }}>
             <div className="absolute inset-0 rounded-2xl bg-[#0b0b1c]/55" />
             {mode.art.map((c, i) => (
               <motion.div key={c.id} initial={{ y: 60, opacity: 0, rotate: -8 }} animate={{ y: 0, opacity: 1, rotate: 0 }} transition={{ delay: 0.1 * i, type: "spring", stiffness: 220, damping: 14 }} className="relative">
                 <div className="animate-bob" style={{ animationDelay: `${i * 0.4}s` }}>
-                  <img src={c.img} alt={c.name} className="px w-24 md:w-32 drop-shadow-[0_10px_0_rgba(0,0,0,0.5)]" />
-                  {mode.id !== "shop" && <img src={weaponImg(["smith", "kurval", "flamer", "scream"][i % 4] as "smith", i % 4)} alt="" className="px absolute left-[60%] top-[45%] w-20 max-w-none" />}
+                  <img src={c.img} alt={c.name} className="px w-[4.5rem] min-[420px]:w-24 md:w-32 drop-shadow-[0_10px_0_rgba(0,0,0,0.5)]" />
+                  {mode.id !== "shop" && <img src={weaponImg(["smith", "kurval", "flamer", "scream"][i % 4] as "smith", i % 4)} alt="" className="px absolute left-[60%] top-[45%] w-14 max-w-none min-[420px]:w-20" />}
                 </div>
               </motion.div>
             ))}
@@ -99,7 +99,7 @@ export function Modes() {
       </AnimatePresence>
 
       {/* match flow */}
-      <Reveal className="mt-24">
+      <Reveal className="mt-16 sm:mt-24">
         <h3 className="text-center font-display text-4xl md:text-6xl">From menu to match</h3>
         <p className="mt-2 text-center text-white/60">Tap a step to see what happens.</p>
         <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_1.1fr]">
@@ -111,23 +111,23 @@ export function Modes() {
                 <li key={f.title}>
                   <button
                     onClick={() => { setStep(i); sfx("ui_move", 0.3); }}
-                    className="relative flex w-full items-center gap-4 rounded-xl border px-4 py-3 text-left cursor-pointer transition-colors"
+                    className="relative flex w-full cursor-pointer items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors active:scale-[0.98] sm:gap-4 sm:px-4"
                     style={{ borderColor: on ? "#ffd23f" : "rgba(255,255,255,0.1)", background: on ? "rgba(255,210,63,0.1)" : "rgba(255,255,255,0.03)" }}
                   >
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg font-digital text-2xl" style={{ background: on ? "#ffd23f" : "rgba(255,255,255,0.08)", color: on ? "#0b0b1c" : "#fff" }}>{i + 1}</span>
-                    <span className="font-ui text-lg">{f.title}</span>
+                    <span className="min-w-0 font-ui text-base leading-tight sm:text-lg">{f.title}</span>
                     <I className="ml-auto w-5 h-5 opacity-60" />
                   </button>
                 </li>
               );
             })}
           </ol>
-          <div className="panel relative min-h-[260px] overflow-hidden p-8">
+          <div className="panel relative min-h-[240px] overflow-hidden p-5 pb-7 sm:min-h-[260px] sm:p-8">
             <AnimatePresence mode="wait">
               <motion.div key={step} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.3 }}>
-                <p className="font-digital text-8xl text-gold/25 leading-none">0{step + 1}</p>
+                <p className="font-digital text-7xl leading-none text-gold/25 sm:text-8xl">0{step + 1}</p>
                 <h4 className="font-display text-4xl md:text-5xl -mt-4">{FLOW[step].title}</h4>
-                <p className="mt-4 text-white/75 leading-relaxed text-lg">{FLOW[step].text}</p>
+                <p className="mt-4 text-base leading-relaxed text-white/75 sm:text-lg">{FLOW[step].text}</p>
               </motion.div>
             </AnimatePresence>
             <div className="absolute bottom-0 left-0 h-1.5 bg-gold transition-all duration-500" style={{ width: `${((step + 1) / FLOW.length) * 100}%` }} />
@@ -136,7 +136,7 @@ export function Modes() {
       </Reveal>
 
       {/* extras */}
-      <motion.ul variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} className="mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <motion.ul variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} className="mt-14 grid gap-3 sm:mt-20 sm:grid-cols-2 sm:gap-4 lg:grid-cols-5">
         {EXTRAS.map((e) => {
           const I = e.icon;
           return (

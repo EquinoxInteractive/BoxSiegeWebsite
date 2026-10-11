@@ -47,6 +47,7 @@ export function MusicPlayer() {
   const [vol, setVol] = useState(0.5);
   const [open, setOpen] = useState(false);
   const [sfxOn, setSfxOn] = useState(true);
+  const dock = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const a = new Audio();
@@ -57,6 +58,16 @@ export function MusicPlayer() {
   }, []);
 
   useEffect(() => { if (audio.current) audio.current.volume = vol; }, [vol]);
+
+  // tap outside (or press Esc) closes the panel, so it never gets stuck over the page on a phone
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => { if (dock.current && !dock.current.contains(e.target as Node)) setOpen(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("pointerdown", onDown);
+    window.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("pointerdown", onDown); window.removeEventListener("keydown", onKey); };
+  }, [open]);
 
   const play = (i: number) => {
     const a = audio.current;
@@ -71,11 +82,11 @@ export function MusicPlayer() {
   };
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 flex items-end gap-3">
+    <div ref={dock} className="music-dock fixed bottom-3 left-3 z-50 flex items-end gap-3 sm:bottom-4 sm:left-4">
       <button
         onClick={() => { setOpen((o) => !o); sfx("ui_toggle_on", 0.25); }}
         aria-label="Music & sound"
-        className="relative grid h-14 w-14 place-items-center rounded-full border-2 border-white/20 bg-black/70 backdrop-blur cursor-pointer transition-transform hover:scale-110"
+        className="relative grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-white/20 bg-black/70 backdrop-blur cursor-pointer transition-transform active:scale-95 sm:h-14 sm:w-14 sm:hover:scale-110"
         style={{ boxShadow: playing ? "0 0 26px rgba(255,210,63,0.55)" : "0 8px 24px rgba(0,0,0,0.5)" }}
       >
         <img src="/assets/ui/icon.jpg" alt="" className={`absolute inset-1 rounded-full object-cover ${playing ? "animate-[spin_6s_linear_infinite]" : "opacity-60"}`} />
@@ -88,7 +99,7 @@ export function MusicPlayer() {
           <motion.div
             initial={{ opacity: 0, y: 14, scale: 0.94 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 14, scale: 0.94 }}
             transition={{ duration: 0.25 }}
-            className="panel w-64 p-4"
+            className="panel w-[min(16rem,calc(100vw-5.5rem))] p-4"
           >
             <div className="flex items-center justify-between">
               <p className="font-ui text-xs uppercase tracking-widest text-gold">Soundtrack</p>
@@ -101,7 +112,7 @@ export function MusicPlayer() {
                 <li key={t.id}>
                   <button
                     onClick={() => play(i)}
-                    className="w-full flex items-center gap-2 rounded-lg px-3 py-2 text-left text-sm cursor-pointer transition-colors hover:bg-white/10"
+                    className="w-full flex items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm cursor-pointer transition-colors hover:bg-white/10 active:bg-white/15"
                     style={{ color: i === track && playing ? "#ffd23f" : "#fff" }}
                   >
                     <span className="font-digital text-lg w-5">{i + 1}</span> {t.name}

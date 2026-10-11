@@ -70,8 +70,16 @@ export function StatBar({ label, value, display, color, delay = 0 }: { label: st
 export function Tabs<T extends string>({ tabs, value, onChange, id, accent = "#ffd23f", className = "" }: {
   tabs: { id: T; label: string; badge?: string }[]; value: T; onChange: (v: T) => void; id: string; accent?: string; className?: string;
 }) {
+  const bar = useRef<HTMLDivElement>(null);
+  // on a phone the tab bar scrolls sideways: keep the active tab in view
+  useEffect(() => {
+    const b = bar.current;
+    const el = b?.querySelector<HTMLElement>('[aria-selected="true"]');
+    if (!b || !el || b.scrollWidth <= b.clientWidth) return;
+    b.scrollTo({ left: el.offsetLeft - (b.clientWidth - el.offsetWidth) / 2, behavior: "smooth" });
+  }, [value]);
   return (
-    <div className={`inline-flex flex-wrap justify-center gap-1.5 rounded-2xl bg-black/40 p-1.5 border border-white/10 ${className}`} role="tablist">
+    <div ref={bar} className={`no-scrollbar relative flex w-max max-w-full gap-1.5 overflow-x-auto rounded-2xl border border-white/10 bg-black/40 p-1.5 ${className}`} role="tablist">
       {tabs.map((t) => {
         const on = t.id === value;
         return (
@@ -80,7 +88,7 @@ export function Tabs<T extends string>({ tabs, value, onChange, id, accent = "#f
             role="tab"
             aria-selected={on}
             onClick={() => onChange(t.id)}
-            className="relative px-4 py-2.5 rounded-xl font-ui text-xs md:text-sm uppercase tracking-wider cursor-pointer transition-colors"
+            className="relative shrink-0 cursor-pointer whitespace-nowrap rounded-xl px-3.5 py-2.5 font-ui text-xs uppercase tracking-wider transition-colors active:scale-95 sm:px-4 md:text-sm"
             style={{ color: on ? "#0b0b1c" : "rgba(255,255,255,0.7)" }}
           >
             {on && (

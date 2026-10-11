@@ -18,14 +18,14 @@ const GUNS: WeaponId[] = ["smith", "kurval", "flamer", "scream"];
 export function ModesStrip() {
   const modes = ORDER.map((id) => MODES.find((m) => m.id === id)!);
   return (
-    <section className="relative px-5 pb-8 pt-16 md:pt-24">
+    <section className="relative px-4 pb-8 pt-12 sm:px-5 md:pt-24">
       <div className="mx-auto max-w-[1400px]">
         <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4 md:mb-14">
           <div>
-            <h2 className="font-display text-5xl md:text-7xl" style={{ textShadow: "0 4px 0 #000" }}>Pick how you play</h2>
-            <p className="mt-3 max-w-xl text-lg text-white/65">Brawl with friends on the couch, or take on the Campaign alone.</p>
+            <h2 className="font-display text-[2.7rem] leading-none sm:text-5xl md:text-7xl" style={{ textShadow: "0 4px 0 #000" }}>Pick how you play</h2>
+            <p className="mt-3 max-w-xl text-base text-white/65 sm:text-lg">Brawl with friends on the couch, or take on the Campaign alone.</p>
           </div>
-          <Link to="/modes" onClick={() => sfx("ui_confirm", 0.35)} className="group inline-flex items-center gap-2 font-ui text-lg text-gold">
+          <Link to="/modes" onClick={() => sfx("ui_confirm", 0.35)} className="group inline-flex items-center gap-2 py-1 font-ui text-base text-gold sm:text-lg">
             All modes and match flow <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1.5" />
           </Link>
         </Reveal>
@@ -36,7 +36,7 @@ export function ModesStrip() {
             const pitch = PITCH[m.id];
             return (
               <motion.li key={m.id} variants={popIn} className="panel group flex flex-col overflow-hidden" style={{ ["--accent" as string]: m.color }}>
-                <div className="relative flex h-44 items-end justify-center gap-2 overflow-hidden px-4" style={{ background: `url(${ARENAS[pitch.stage].bg}) center/cover`, imageRendering: "pixelated" }}>
+                <div className="relative flex h-40 items-end sm:h-44 justify-center gap-2 overflow-hidden px-4" style={{ background: `url(${ARENAS[pitch.stage].bg}) center/cover`, imageRendering: "pixelated" }}>
                   <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${m.color}22, rgba(11,11,28,0.8))` }} />
                   {m.art.slice(0, 3).map((c, i) => (
                     <div key={c.id} className="animate-bob relative" style={{ animationDelay: `${i * 0.4}s` }}>
@@ -46,7 +46,7 @@ export function ModesStrip() {
                   ))}
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <p className="flex items-center gap-2.5 font-display text-4xl leading-none"><Icon className="h-6 w-6" style={{ color: m.color }} />{m.title}</p>
+                  <p className="flex items-center gap-2.5 font-display text-[2.1rem] leading-none sm:text-4xl"><Icon className="h-6 w-6" style={{ color: m.color }} />{m.title}</p>
                   <p className="mt-1.5 font-ui text-sm text-white/55">{m.tag}</p>
                   <p className="mt-3 leading-relaxed text-white/75">{pitch.text}</p>
                 </div>

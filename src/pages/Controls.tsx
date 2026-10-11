@@ -33,14 +33,27 @@ const ARROWS = [
 
 const ACT: Record<string, string> = { left: "LEFT", right: "RIGHT", up: "JUMP", down: "DROP", shoot: "SHOOT", knife: "KNIFE" };
 
-function Key({ k, down, focus, style }: { k: K; down: Set<string>; focus: number | null; style?: React.CSSProperties }) {
+type Press = (id: string, isDown: boolean) => void;
+
+/** Pointer handlers that make a bound key or keycap pressable by mouse or finger. */
+function pressable(id: string, onPress?: Press) {
+  if (!onPress) return {};
+  const up = () => onPress(id, false);
+  return { onPointerDown: () => onPress(id, true), onPointerUp: up, onPointerLeave: up, onPointerCancel: up };
+}
+
+function Key({ k, down, focus, style, onPress }: { k: K; down: Set<string>; focus: number | null; style?: React.CSSProperties; onPress?: Press }) {
   const bind = k.c ? KEYCODES[k.c] : undefined;
   const p = bind?.[0];
   const dim = bind !== undefined && focus !== null && focus !== p;
   const pressed = bind ? down.has(`${bind[0]}-${bind[1]}`) : false;
   const color = p !== undefined ? PLAYER_COLORS[p] : "";
   return (
-    <div className="p-[2px]" style={{ width: `calc(var(--u) * ${k.w ?? 1})`, height: `calc(var(--u) * ${k.h ?? 1})`, ...style }}>
+    <div
+      className={`p-[2px] ${bind && onPress ? "cursor-pointer select-none" : ""}`}
+      style={{ width: `calc(var(--u) * ${k.w ?? 1})`, height: `calc(var(--u) * ${k.h ?? 1})`, ...style }}
+      {...(bind ? pressable(`${bind[0]}-${bind[1]}`, onPress) : {})}
+    >
       <div
         className="relative flex h-full w-full flex-col items-center justify-center rounded-[7px] border text-center font-ui leading-none transition-all duration-100"
         style={{
@@ -61,21 +74,21 @@ function Key({ k, down, focus, style }: { k: K; down: Set<string>; focus: number
   );
 }
 
-function Keyboard({ down, focus }: { down: Set<string>; focus: number | null }) {
+function Keyboard({ down, focus, onPress }: { down: Set<string>; focus: number | null; onPress: Press }) {
   return (
-    <div className="overflow-x-auto pb-3">
+    <div className="no-scrollbar -mx-4 overflow-x-auto px-4 pb-3 sm:mx-0 sm:px-0">
       <div className="mx-auto flex w-max items-end gap-[calc(var(--u)*0.5)] rounded-3xl border border-white/10 bg-gradient-to-b from-[#1b1a40] to-[#0f0f26] p-[calc(var(--u)*0.5)] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)]" style={{ ["--u" as string]: "clamp(34px, 3.3vw, 46px)" }}>
         <div>
           {MAIN.map((r, i) => (
-            <div key={i} className="flex">{r.map((k, j) => <Key key={j} k={k} down={down} focus={focus} />)}</div>
+            <div key={i} className="flex">{r.map((k, j) => <Key key={j} k={k} down={down} focus={focus} onPress={onPress} />)}</div>
           ))}
         </div>
         <div className="grid" style={{ gridTemplateColumns: "repeat(3, var(--u))", gridTemplateRows: "repeat(2, var(--u))" }}>
-          {ARROWS.map((a) => <Key key={a.c} k={{ c: a.c, l: a.l }} down={down} focus={focus} style={{ gridColumn: a.col, gridRow: a.row, width: "auto", height: "auto" }} />)}
+          {ARROWS.map((a) => <Key key={a.c} k={{ c: a.c, l: a.l }} down={down} focus={focus} onPress={onPress} style={{ gridColumn: a.col, gridRow: a.row, width: "auto", height: "auto" }} />)}
         </div>
         <div className="grid" style={{ gridTemplateColumns: "repeat(4, var(--u))", gridTemplateRows: "repeat(5, var(--u))" }}>
           {NUMPAD.map((n) => (
-            <Key key={n.l + n.col + n.row} k={{ c: n.c, l: n.l }} down={down} focus={focus}
+            <Key key={n.l + n.col + n.row} k={{ c: n.c, l: n.l }} down={down} focus={focus} onPress={onPress}
               style={{ gridColumn: `${n.col} / span ${n.w ?? 1}`, gridRow: `${n.row} / span ${n.h ?? 1}`, width: "auto", height: "auto" }} />
           ))}
         </div>
@@ -85,14 +98,14 @@ function Keyboard({ down, focus }: { down: Set<string>; focus: number | null }) 
 }
 
 /** Movement keys drawn as an inverted-T, exactly how the fingers sit on the keyboard. */
-function PlayerPad({ p, down, active, onFocus }: { p: number; down: Set<string>; active: boolean; onFocus: (v: number | null) => void }) {
+function PlayerPad({ p, down, active, onFocus, onPress }: { p: number; down: Set<string>; active: boolean; onFocus: (v: number | null) => void; onPress: Press }) {
   const m = KEYMAP[p];
   const color = PLAYER_COLORS[p];
   const cap = (a: string) => {
     const on = down.has(`${p}-${a}`);
     return (
       <div className="flex flex-col items-center gap-1.5">
-        <span className={`keycap ${on ? "down" : ""}`} style={{ ["--kc" as string]: color }}>{m[a as keyof typeof m]}</span>
+        <span className={`keycap cursor-pointer select-none ${on ? "down" : ""}`} style={{ ["--kc" as string]: color }} {...pressable(`${p}-${a}`, onPress)}>{m[a as keyof typeof m]}</span>
         <span className="font-ui text-[10px] uppercase tracking-widest text-white/55">{ACT[a]}</span>
       </div>
     );
@@ -101,7 +114,7 @@ function PlayerPad({ p, down, active, onFocus }: { p: number; down: Set<string>;
     <motion.div
       onMouseEnter={() => onFocus(p)} onMouseLeave={() => onFocus(null)} onFocus={() => onFocus(p)} onBlur={() => onFocus(null)} tabIndex={0}
       whileHover={{ y: -5 }}
-      className="panel relative h-full overflow-hidden p-5 outline-none"
+      className="panel relative h-full overflow-hidden p-4 outline-none sm:p-5"
       style={{ borderColor: active ? color : undefined, boxShadow: active ? `0 0 0 1px ${color}, 0 20px 50px -24px ${color}` : undefined }}
     >
       <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: color }} />
@@ -125,42 +138,52 @@ export function Controls() {
   const [down, setDown] = useState<Set<string>>(new Set());
   const [last, setLast] = useState("");
   const [focus, setFocus] = useState<number | null>(null);
+  /** one place that lights a key up: used by the real keyboard and by taps / clicks */
+  const trigger = (p: number, act: string, isDown: boolean, repeat = false) => {
+    const k = `${p}-${act}`;
+    setDown((s) => { const n = new Set(s); if (isDown) n.add(k); else n.delete(k); return n; });
+    if (isDown && !repeat) {
+      setLast(`Player ${p + 1} · ${ACTIONS.find((a) => a.id === act)?.label ?? act}`);
+      sfx(act === "shoot" ? "gun_smith" : act === "knife" ? "knife_hit" : act === "up" ? "jump" : "ui_move", 0.3);
+    }
+  };
+  const press: Press = (id, isDown) => {
+    const i = id.indexOf("-");
+    trigger(+id.slice(0, i), id.slice(i + 1), isDown);
+  };
+
   useKeyDown((e, isDown) => {
     const hit = KEYCODES[e.code];
     if (!hit) return;
     const t = e.target as HTMLElement;
     if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
-    const k = `${hit[0]}-${hit[1]}`;
-    setDown((s) => { const n = new Set(s); if (isDown) n.add(k); else n.delete(k); return n; });
-    if (isDown && !e.repeat) {
-      setLast(`Player ${hit[0] + 1} · ${ACTIONS.find((a) => a.id === hit[1])!.label}`);
-      sfx(hit[1] === "shoot" ? "gun_smith" : hit[1] === "knife" ? "knife_hit" : hit[1] === "up" ? "jump" : "ui_move", 0.3);
-    }
+    trigger(hit[0], hit[1], isDown, e.repeat);
   });
 
   return (
     <Page id="controls" title="Controls" wide
-      intro="Four players fit on a single keyboard - each gets their own colour. Press any highlighted key on your keyboard to try it.">
+      intro="Four players fit on a single keyboard - each gets their own colour. Press any highlighted key on your keyboard to try it, or just tap one on your phone.">
       <Reveal>
-        <div className="mb-5 flex flex-wrap items-center justify-center gap-3">
+        <div className="mb-4 grid grid-cols-2 gap-2 sm:mb-5 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
           {PLAYER_COLORS.map((c, p) => (
             <button key={p} onMouseEnter={() => setFocus(p)} onMouseLeave={() => setFocus(null)} onClick={() => setFocus(focus === p ? null : p)}
-              className="flex cursor-pointer items-center gap-2 rounded-full border px-4 py-1.5 font-ui text-xs uppercase tracking-widest transition-colors"
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-full border px-4 py-2 font-ui text-xs uppercase tracking-widest transition-colors active:scale-95 sm:py-1.5"
               style={{ borderColor: focus === p ? c : "rgba(255,255,255,0.15)", background: focus === p ? `${c}33` : "rgba(0,0,0,0.3)" }}>
               <span className="h-3 w-3 rounded-full" style={{ background: c }} /> Player {p + 1}
             </button>
           ))}
         </div>
-        <Keyboard down={down} focus={focus} />
+        <Keyboard down={down} focus={focus} onPress={press} />
+        <p className="mt-1 text-center text-xs text-white/45 sm:hidden">Swipe the keyboard sideways · tap a coloured key</p>
         <p className="mt-3 h-6 text-center font-ui text-sm uppercase tracking-widest text-gold">{last || "Waiting for a key..."}</p>
       </Reveal>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        {[0, 1, 2, 3].map((p) => <Reveal key={p} delay={p * 0.06} className="h-full"><PlayerPad p={p} down={down} active={focus === p} onFocus={setFocus} /></Reveal>)}
+        {[0, 1, 2, 3].map((p) => <Reveal key={p} delay={p * 0.06} className="h-full"><PlayerPad p={p} down={down} active={focus === p} onFocus={setFocus} onPress={press} /></Reveal>)}
       </div>
 
       <div className="mt-8 grid gap-5 md:grid-cols-2">
-        <Reveal className="panel p-6">
+        <Reveal className="panel p-5 sm:p-6">
           <div className="flex items-center gap-3"><Gamepad2 className="w-6 h-6 text-cyan" /><h3 className="font-display text-3xl">Controller</h3></div>
           <ul className="mt-4 grid gap-2">
             {PAD.map((r) => (
@@ -169,7 +192,7 @@ export function Controls() {
           </ul>
           <p className="mt-4 flex gap-2 text-sm text-white/60"><Info className="mt-0.5 h-4 w-4 shrink-0" /> Plug in as many controllers as you like - hot-plug works. Each pad is assigned to a player automatically, and every menu is fully navigable with a pad.</p>
         </Reveal>
-        <Reveal delay={0.08} className="panel p-6">
+        <Reveal delay={0.08} className="panel p-5 sm:p-6">
           <h3 className="font-display text-3xl">Controls & Settings screens</h3>
           <p className="mt-2 text-sm text-white/65">The CONTROLS screen lets every player rebind each action and choose a preferred device (keyboard or a specific controller). The SETTINGS screen offers:</p>
           <ul className="mt-4 flex flex-wrap gap-2">{SETTINGS_LIST.map((s) => <li key={s} className="chip normal-case !tracking-normal !text-xs">{s}</li>)}</ul>

@@ -26,7 +26,7 @@
   color-scheme: dark;
 }
 
-html { overflow-x: clip; scroll-behavior: smooth; scroll-padding-top: 76px; }
+html { overflow-x: clip; scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--color-ink);
@@ -34,12 +34,17 @@ body {
   font-family: var(--font-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
+button, a, [role="button"] { touch-action: manipulation; }
 ::selection { background: var(--color-gold); color: #0b0b1c; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: #0b0b1c; }
 ::-webkit-scrollbar-thumb { background: #2c2a5a; border-radius: 6px; }
 ::-webkit-scrollbar-thumb:hover { background: #ffd23f; }
+
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
 .font-display { font-family: var(--font-display); letter-spacing: 0.02em; }
 .font-ui { font-family: var(--font-ui); letter-spacing: 0.03em; }
@@ -92,15 +97,19 @@ body {
   overflow: hidden;
 }
 .skew-btn > * { transform: skewX(10deg); }
-.skew-btn:hover { transform: skewX(-10deg) translateY(-3px) scale(1.04); filter: brightness(1.08); }
-.skew-btn:active { transform: skewX(-10deg) translateY(1px) scale(0.98); }
+.skew-btn:active { transform: skewX(-10deg) translateY(1px) scale(0.97); filter: brightness(1.05); }
+@media (hover: hover) {
+  .skew-btn:hover { transform: skewX(-10deg) translateY(-3px) scale(1.04); filter: brightness(1.08); }
+}
 .skew-btn::after {
   content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.65) 50%, transparent 70%);
   transform: translateX(-120%); transition: transform .7s;
 }
-.skew-btn:hover::after { transform: translateX(120%); }
+.skew-btn:active::after { transform: translateX(120%); }
+@media (hover: hover) { .skew-btn:hover::after { transform: translateX(120%); } }
 .skew-btn.ghost { background: rgba(255,255,255,0.04); color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.28); }
-.skew-btn.ghost:hover { box-shadow: 0 0 0 2px var(--color-gold); color: var(--color-gold); }
+.skew-btn.ghost:active { box-shadow: 0 0 0 2px var(--color-gold); color: var(--color-gold); }
+@media (hover: hover) { .skew-btn.ghost:hover { box-shadow: 0 0 0 2px var(--color-gold); color: var(--color-gold); } }
 
 .chip {
   display: inline-flex; align-items: center; gap: .4rem; padding: .28rem .7rem; border-radius: 999px;
@@ -150,6 +159,28 @@ body {
 .animate-bob-rot { animation: bob-rot 4.2s ease-in-out infinite; }
 
 .rarity-legendary { animation: shine 3s linear infinite; background-image: linear-gradient(110deg, transparent 30%, rgba(255,205,60,0.25) 50%, transparent 70%); background-size: 200% 100%; }
+
+/* ── phones & small tablets ─────────────────────────────────────── */
+@media (max-width: 767px) {
+  html { scroll-padding-top: 68px; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  .bg-grid { background-size: 40px 40px; }
+  /* fewer drifting boxes = smoother scrolling on phones */
+  .drift-box:nth-child(3n), .drift-box:nth-child(3n + 1) { display: none; }
+  .panel { border-radius: 16px; backdrop-filter: blur(4px); }
+  .skew-btn { padding: 0.85rem 1.4rem; font-size: 0.85rem; }
+  .keycap { min-width: 2.4rem; height: 2.4rem; }
+  .chip { font-size: 0.68rem; }
+}
+
+/* touch devices: tapping feels like pressing a button */
+@media (hover: none) {
+  .panel:active { filter: brightness(1.08); }
+}
+
+/* hide the floating music button while the mobile menu is open */
+.music-dock { transition: opacity .2s, transform .2s; padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); }
+html[data-menu="open"] .music-dock { opacity: 0; pointer-events: none; transform: translateY(12px); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }

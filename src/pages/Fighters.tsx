@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Dices, Skull, Smile, Volume2 } from "lucide-react";
 import { ARENAS, CHARACTERS, CHAR_SKINS, charSkinImg } from "@/data/game";
 import { Page } from "@/components/Page";
-import { Coin, FighterFace, RarityTag } from "@/components/ui";
+import { Coin, FighterFace, RarityTag, useMedia } from "@/components/ui";
 import { playUrl, sfx } from "@/lib/audio";
 
 export function Fighters() {
@@ -11,6 +11,7 @@ export function Fighters() {
   const [ko, setKo] = useState(false);
   const [skin, setSkin] = useState<string>("");
   const [spin, setSpin] = useState(0);
+  const small = useMedia("(max-width: 480px)");
   const c = CHARACTERS[sel];
   const arena = ARENAS[sel % ARENAS.length];
 
@@ -34,16 +35,16 @@ export function Fighters() {
       intro="Every box has its own face, voice and attitude. Any fighter can be used by any player - you just can't pick the same one twice. 16 originals plus 8 brand-new faces.">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
         {/* viewer */}
-        <div className="panel relative overflow-hidden p-5 md:p-8">
+        <div className="panel relative overflow-hidden p-4 sm:p-5 md:p-8">
           <div className="absolute inset-0 opacity-45" style={{ background: `url(${arena.bg}) center/cover`, imageRendering: "pixelated" }} />
           <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 50% 55%, ${c.color}55, transparent 60%), linear-gradient(180deg, rgba(11,11,28,0.55), rgba(11,11,28,0.92))` }} />
 
-          <div className="relative flex min-h-[470px] flex-col items-center justify-between">
-            <div className="flex w-full items-start justify-between">
+          <div className="relative flex min-h-[430px] flex-col items-center justify-between sm:min-h-[470px]">
+            <div className="flex w-full items-start justify-between gap-3">
               <div>
                 <AnimatePresence mode="wait">
                   <motion.h3 key={c.id} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -14 }} transition={{ duration: 0.25 }}
-                    className="font-display text-5xl md:text-7xl leading-none" style={{ color: c.color, textShadow: "0 4px 0 #000" }}>
+                    className="font-display text-[2.6rem] leading-none sm:text-5xl md:text-7xl" style={{ color: c.color, textShadow: "0 4px 0 #000" }}>
                     {c.name}
                   </motion.h3>
                 </AnimatePresence>
@@ -53,7 +54,7 @@ export function Fighters() {
                   {skinInfo && <RarityTag r={skinInfo.rarity} />}
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex shrink-0 gap-2">
                 <button onClick={() => playUrl(c.voice, 0.7)} className="grid h-11 w-11 place-items-center rounded-xl border border-white/15 bg-black/40 cursor-pointer hover:border-gold hover:text-gold transition-colors" aria-label="Play voice line" title="Voice line">
                   <Volume2 className="w-5 h-5" />
                 </button>
@@ -66,7 +67,7 @@ export function Fighters() {
             <AnimatePresence mode="wait">
               <motion.div key={c.id + face} initial={{ opacity: 0, scale: 0.6, rotate: -10, y: 30 }} animate={{ opacity: 1, scale: 1, rotate: 0, y: 0 }} exit={{ opacity: 0, scale: 0.7, y: -20 }} transition={{ type: "spring", stiffness: 260, damping: 16 }} className="my-4">
                 <div className={ko ? "" : "animate-bob"}>
-                  <FighterFace src={face} size={260} className="drop-shadow-[0_18px_0_rgba(0,0,0,0.5)] max-w-[70vw]" />
+                  <FighterFace src={face} size={small ? 200 : 260} className="drop-shadow-[0_18px_0_rgba(0,0,0,0.5)]" />
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -92,7 +93,7 @@ export function Fighters() {
 
         {/* roster grid */}
         <div>
-          <div className="grid grid-cols-4 gap-2.5 sm:grid-cols-6">
+          <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 sm:gap-2.5">
             {CHARACTERS.map((ch, i) => {
               const on = i === sel;
               return (
@@ -116,12 +117,12 @@ export function Fighters() {
             })}
           </div>
 
-          <div className="mt-3 flex items-center gap-3">
+          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
             <button onClick={random} className="skew-btn ghost !py-2.5 !px-5 !text-xs"><span className="flex items-center gap-2"><motion.span animate={{ rotate: spin * 360 }} transition={{ duration: 0.5 }}><Dices className="w-4 h-4" /></motion.span> Random fighter</span></button>
             <p className="text-xs text-white/50">Same as the RANDOM tile in the game.</p>
           </div>
 
-          <div className="panel mt-5 grid gap-3 p-5 text-sm text-white/70 sm:grid-cols-2">
+          <div className="panel mt-4 grid gap-3 p-4 text-sm text-white/70 sm:mt-5 sm:grid-cols-2 sm:p-5">
             <p><b className="font-ui text-white">One of a kind.</b> In a match, each fighter can only be locked in by one player - others see “TAKEN BY Px”.</p>
             <p><b className="font-ui text-white">Skins are per fighter.</b> 10 themes × 24 fighters = 240 character skins, bought individually.</p>
             <p><b className="font-ui text-white">KO poses.</b> Every fighter and skin has its own defeat sprite shown when a round ends.</p>

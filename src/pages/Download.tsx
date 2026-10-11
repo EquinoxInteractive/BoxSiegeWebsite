@@ -24,22 +24,22 @@ export default function Download() {
     <Page id="download" title="Download" intro={intro}>
       <PlatformCards />
 
-      <Reveal className="mx-auto mt-20 max-w-4xl text-center">
+      <Reveal className="mx-auto mt-14 max-w-4xl text-center sm:mt-20">
         <div className="flex justify-center"><StatusBadge /></div>
-        <h2 className="mt-4 font-display text-4xl md:text-6xl">Watch before you download</h2>
+        <h2 className="mt-4 font-display text-[2.2rem] leading-none sm:text-4xl md:text-6xl">Watch before you download</h2>
         <p className="mt-2 text-white/65">A short look at the gameplay you are about to get.</p>
-        <VideoPreview className="mt-8" />
+        <VideoPreview className="mt-6 sm:mt-8" />
       </Reveal>
 
-      <div className="mt-20 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
-        <Reveal className="panel p-7 md:p-9">
+      <div className="mt-14 grid gap-5 sm:mt-20 sm:gap-6 lg:grid-cols-[1.2fr_1fr]">
+        <Reveal className="panel p-5 sm:p-7 md:p-9">
           <h2 className="font-display text-4xl md:text-5xl">How to install</h2>
           <ol className="mt-6 grid gap-4">
             {STEPS.map((s, i) => {
               const Icon = s.icon;
               return (
-                <li key={s.title} className="flex items-center gap-5 rounded-xl bg-black/30 p-4">
-                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-gold font-digital text-3xl text-ink">{i + 1}</span>
+                <li key={s.title} className="flex items-center gap-4 rounded-xl bg-black/30 p-3 sm:gap-5 sm:p-4">
+                  <span className="grid h-12 w-12 shrink-0 sm:h-14 sm:w-14 place-items-center rounded-xl bg-gold font-digital text-3xl text-ink">{i + 1}</span>
                   <div className="min-w-0">
                     <p className="flex items-center gap-2 font-ui text-xl"><Icon className="h-5 w-5 text-gold" />{s.title}</p>
                     <p className="mt-0.5 text-sm text-white/65">{s.text}</p>
@@ -50,9 +50,9 @@ export default function Download() {
           </ol>
         </Reveal>
 
-        <Reveal delay={0.08} className="panel p-7 md:p-9">
+        <Reveal delay={0.08} className="panel p-5 sm:p-7 md:p-9">
           <h2 className="flex items-center gap-3 font-display text-4xl md:text-5xl"><Monitor className="h-7 w-7 text-gold" />System requirements</h2>
-          <dl className="mt-6 grid grid-cols-[auto_1fr] gap-x-8 gap-y-3 text-base">
+          <dl className="mt-6 grid grid-cols-[auto_1fr] gap-x-5 gap-y-3 text-[15px] sm:gap-x-8 sm:text-base">
             {PLATFORMS.map((p) => (
               <Fragment key={p.id}>
                 <dt className="text-white/50">{p.name}</dt>
@@ -66,7 +66,7 @@ export default function Download() {
         </Reveal>
       </div>
 
-      <Reveal className="mt-20">
+      <Reveal className="mt-14 sm:mt-20">
         <h2 className="font-display text-4xl md:text-6xl">Still deciding?</h2>
         <p className="mt-2 text-white/65">Look around before you download.</p>
         <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -74,10 +74,10 @@ export default function Download() {
             const Icon = p.icon;
             return (
               <li key={p.id}>
-                <Link to={p.path} onClick={() => sfx("ui_confirm", 0.35)} className="panel group flex items-center gap-4 p-4 transition-colors hover:border-[var(--accent)]" style={{ ["--accent" as string]: p.accent }}>
+                <Link to={p.path} onClick={() => sfx("ui_confirm", 0.35)} className="panel group flex items-center gap-4 p-3.5 transition-colors active:border-[var(--accent)] hover:border-[var(--accent)] sm:p-4" style={{ ["--accent" as string]: p.accent }}>
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl" style={{ background: p.accent, color: "#0b0b1c" }}><Icon className="h-6 w-6" /></span>
                   <span className="min-w-0">
-                    <span className="block font-display text-3xl leading-none">{p.count} {p.countLabel}</span>
+                    <span className="block truncate font-display text-[1.6rem] leading-none sm:text-3xl">{p.count} {p.countLabel}</span>
                     <span className="mt-1 block truncate text-sm text-white/60">{p.label}</span>
                   </span>
                 </Link>

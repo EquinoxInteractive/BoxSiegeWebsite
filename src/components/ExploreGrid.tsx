@@ -16,7 +16,7 @@ function Tile({ id, className, children, tall = false, blurbW = "24ch" }: { id: 
         to={page.path}
         onClick={() => sfx("ui_confirm", 0.35)}
         onMouseEnter={() => sfx("ui_hover", 0.1)}
-        className={`group relative isolate flex h-full ${tall ? "min-h-[400px]" : "min-h-[240px]"} flex-col overflow-hidden rounded-3xl border border-white/10 p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--accent)] hover:shadow-[0_24px_60px_-24px_var(--accent)] ${tall ? "justify-start" : "justify-between"}`}
+        className={`group relative isolate flex h-full ${tall ? "min-h-[360px] sm:min-h-[400px]" : "min-h-[210px] sm:min-h-[240px]"} flex-col overflow-hidden rounded-3xl border border-white/10 p-5 transition-all duration-300 active:scale-[0.985] active:border-[var(--accent)] sm:p-6 sm:hover:-translate-y-1.5 hover:border-[var(--accent)] hover:shadow-[0_24px_60px_-24px_var(--accent)] ${tall ? "justify-start" : "justify-between"}`}
         style={{ ["--accent" as string]: page.accent }}
         aria-label={`${page.label}: ${page.blurb}`}
       >
@@ -27,15 +27,15 @@ function Tile({ id, className, children, tall = false, blurbW = "24ch" }: { id: 
 
         <span className="relative">
           <span className="flex items-baseline gap-2.5">
-            <span className="font-digital text-5xl leading-none" style={{ color: page.accent }}>{page.count}</span>
+            <span className="font-digital text-4xl leading-none sm:text-5xl" style={{ color: page.accent }}>{page.count}</span>
             <span className="font-ui text-sm text-white/65">{page.countLabel}</span>
           </span>
-          <span className="mt-2 block font-display text-4xl leading-none md:text-5xl" style={{ textShadow: "0 3px 0 #000" }}>{page.label}</span>
+          <span className="mt-2 block font-display text-[2.1rem] leading-none md:text-5xl" style={{ textShadow: "0 3px 0 #000" }}>{page.label}</span>
         </span>
 
         <span className={`relative block text-sm leading-snug text-white/75 ${tall ? "mt-3" : "mt-6"}`} style={{ maxWidth: blurbW }}>{page.blurb}</span>
 
-        <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-black/40 transition-all duration-300 group-hover:rotate-45 group-hover:border-transparent group-hover:text-ink group-hover:[background:var(--accent)]">
+        <span className="absolute right-3.5 top-3.5 grid h-9 w-9 place-items-center sm:right-4 sm:top-4 sm:h-10 sm:w-10 rounded-full border border-white/20 bg-black/40 transition-all duration-300 group-hover:rotate-45 group-hover:border-transparent group-hover:text-ink group-hover:[background:var(--accent)]">
           <ArrowUpRight className="h-5 w-5" />
         </span>
       </Link>
@@ -48,11 +48,11 @@ const sprite = "px absolute max-w-none drop-shadow-[0_8px_0_rgba(0,0,0,0.45)] tr
 export function ExploreGrid() {
   const acc = (id: string) => ACCESSORIES.filter((a) => a.id === id);
   return (
-    <section id="explore" className="relative px-5 py-24 md:py-28">
+    <section id="explore" className="relative px-4 py-16 sm:px-5 md:py-28">
       <div className="mx-auto max-w-[1400px]">
         <Reveal className="mb-10 md:mb-14">
-          <h2 className="font-display text-5xl md:text-7xl" style={{ textShadow: "0 4px 0 #000" }}>See what's in the box</h2>
-          <p className="mt-3 max-w-xl text-lg text-white/65">Every part of the game has its own page. Pick one to try it out.</p>
+          <h2 className="font-display text-[2.7rem] leading-none sm:text-5xl md:text-7xl" style={{ textShadow: "0 4px 0 #000" }}>See what's in the box</h2>
+          <p className="mt-3 max-w-xl text-base text-white/65 sm:text-lg">Every part of the game has its own page. Pick one to try it out.</p>
         </Reveal>
 
         <motion.ul variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="grid gap-4 sm:grid-cols-2 lg:auto-rows-[230px] lg:grid-cols-12">

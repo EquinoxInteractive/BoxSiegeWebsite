@@ -23,36 +23,36 @@ export function Arsenal() {
   return (
     <Page id="arsenal" title="The arsenal"
       intro="Four main weapons chosen on the fighter screen, a Pistol that backs up Scream, and a knife everyone carries. Click the weapon to fire it.">
-      <div className="mb-6 flex flex-wrap justify-center gap-3">
+      <div className="mb-5 grid grid-cols-3 gap-2 sm:mb-6 sm:flex sm:flex-wrap sm:justify-center sm:gap-3">
         {WEAPONS.map((x) => (
           <button key={x.id} onClick={() => select(x.id)} onMouseEnter={() => sfx("ui_hover", 0.08)}
-            className="relative cursor-pointer rounded-xl border-2 px-4 py-3 transition-all hover:-translate-y-1"
+            className="relative cursor-pointer rounded-xl border-2 px-2 py-2.5 transition-all active:scale-95 sm:px-4 sm:py-3 sm:hover:-translate-y-1"
             style={{ borderColor: x.id === id ? x.color : "rgba(255,255,255,0.12)", background: x.id === id ? `${x.color}22` : "rgba(0,0,0,0.35)" }}>
-            <img src={weaponImg(x.id, 0)} alt={x.name} className="px h-9 w-24 object-contain" />
-            <p className="mt-1 font-ui text-xs uppercase tracking-widest">{x.name}</p>
+            <img src={weaponImg(x.id, 0)} alt={x.name} className="px mx-auto h-8 w-full object-contain sm:h-9 sm:w-24" />
+            <p className="mt-1 truncate font-ui text-[11px] uppercase tracking-wider sm:text-xs sm:tracking-widest">{x.name}</p>
             {!x.selectable && <span className="absolute -right-1 -top-2 chip !text-[9px] bg-ink">{x.kind === "melee" ? "Melee" : "Backup"}</span>}
           </button>
         ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">
-        <div className="panel relative overflow-hidden p-6 md:p-8" style={{ ["--accent" as string]: w.color }}>
+        <div className="panel relative overflow-hidden p-4 sm:p-6 md:p-8" style={{ ["--accent" as string]: w.color }}>
           <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 50% 45%, ${w.glow}44, transparent 60%)` }} />
-          <div className="relative flex items-start justify-between">
-            <div>
-              <h3 className="font-display text-6xl md:text-8xl leading-none" style={{ color: w.color, textShadow: "0 5px 0 #000" }}>{w.name}</h3>
+          <div className="relative flex flex-wrap items-start justify-between gap-x-4 gap-y-3">
+            <div className="min-w-0">
+              <h3 className="font-display text-5xl leading-none sm:text-6xl md:text-8xl" style={{ color: w.color, textShadow: "0 5px 0 #000" }}>{w.name}</h3>
               <p className="font-ui uppercase tracking-widest text-white/65 mt-1">{w.tagline}</p>
             </div>
             <div className="flex gap-1.5" title="Player colour">
               {PLAYER_COLORS.map((c, i) => (
                 <button key={c} onClick={() => { setPlayer(i); setSkin(""); sfx("ui_move", 0.25); }} aria-label={`Player ${i + 1} colour`}
-                  className="h-7 w-7 cursor-pointer rounded-full border-2 transition-transform hover:scale-110"
+                  className="h-8 w-8 cursor-pointer rounded-full border-2 transition-transform active:scale-90 sm:h-7 sm:w-7 sm:hover:scale-110"
                   style={{ background: c, borderColor: player === i && !skin ? "#fff" : "transparent" }} />
               ))}
             </div>
           </div>
 
-          <button onClick={fire} className="relative mt-6 flex h-52 w-full cursor-crosshair items-center justify-center" aria-label={`Fire ${w.name}`}>
+          <button onClick={fire} className="relative mt-4 flex h-44 w-full cursor-crosshair items-center justify-center sm:mt-6 sm:h-52" aria-label={`Fire ${w.name}`}>
             <AnimatePresence mode="wait">
               <motion.div key={img} initial={{ opacity: 0, x: -40, rotate: -4 }} animate={{ opacity: 1, x: 0, rotate: 0 }} exit={{ opacity: 0, x: 40 }} transition={{ duration: 0.25 }}
                 className="relative -translate-x-[14%]" style={{ width: `min(${Math.round(Math.min(330, 150 * ASPECT[id]))}px, 56vw)` }}>
@@ -74,7 +74,7 @@ export function Arsenal() {
           <p className="relative mt-4 text-white/75 leading-relaxed">{w.blurb}</p>
         </div>
 
-        <div className="panel p-6 md:p-8">
+        <div className="panel p-5 sm:p-6 md:p-8">
           <h4 className="font-ui text-sm uppercase tracking-widest text-white/60">Stats</h4>
           <div className="mt-4 grid gap-4" key={id}>
             <StatBar label="Damage per hit" value={w.damage / 3} display={`${w.damage}`} color="#ff4040" />
@@ -85,7 +85,7 @@ export function Arsenal() {
           </div>
           <div className="mt-6 rounded-xl bg-black/35 p-4">
             <p className="font-ui text-xs uppercase tracking-widest text-white/55">Hits to knock out</p>
-            <div className="mt-2 flex items-center gap-3">
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="font-digital text-5xl text-gold">{hits}</span>
               <div className="flex">{Array.from({ length: MAX_HP }).map((_, i) => <Heart key={i} />)}</div>
               <span className="text-xs text-white/50">every fighter has {MAX_HP} hearts</span>
@@ -101,12 +101,12 @@ export function Arsenal() {
         </div>
       </div>
 
-      <div className="panel mt-6 p-6">
+      <div className="panel mt-6 p-4 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h4 className="font-display text-3xl">{w.name} skins</h4>
           <p className="text-sm text-white/55">5 per weapon · 30 in total · bullet colour changes too</p>
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6">
           <button onClick={() => setSkin("")} className="cursor-pointer rounded-xl border-2 p-3 text-left transition-all hover:-translate-y-1" style={{ borderColor: !skin ? "#ffd23f" : "rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.3)" }}>
             <img src={weaponImg(id, player)} alt="" className="px h-14 w-full object-contain" />
             <p className="mt-2 font-ui text-xs uppercase">Default</p>

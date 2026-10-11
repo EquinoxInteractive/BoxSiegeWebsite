@@ -27,7 +27,7 @@ export function Rules() {
     <Page id="rules" title="Match rules"
       intro="Everything about a Versus match is set on the Battle Settings screen. Try the controls below.">
       <div className="grid gap-6 lg:grid-cols-2">
-        <Reveal className="panel p-7">
+        <Reveal className="panel p-5 sm:p-7">
           <div className="flex items-center gap-3"><Crown className="w-6 h-6 text-gold" /><h3 className="font-display text-3xl">Rounds to win</h3></div>
           <p className="mt-1 text-sm text-white/60">First player (or team) to this many round wins takes the match.</p>
           <div className="mt-4 flex gap-2">
@@ -43,21 +43,21 @@ export function Rules() {
           <p className="mt-3 text-center text-xs text-white/50">When everyone is one win from the end, it is announced as the <b className="text-gold">Final Round</b>.</p>
         </Reveal>
 
-        <Reveal delay={0.08} className="panel p-7">
+        <Reveal delay={0.08} className="panel p-5 sm:p-7">
           <div className="flex items-center gap-3"><Clock className="w-6 h-6 text-cyan" /><h3 className="font-display text-3xl">Round timer</h3></div>
           <p className="mt-1 text-sm text-white/60">From 30 seconds to 5 minutes in 30-second steps - or no limit at all.</p>
-          <div className="mt-4 text-center font-digital text-7xl text-cyan" style={{ textShadow: "0 0 24px #4fd8ff88" }}>{TIMES[time] === "∞" ? <Inf className="mx-auto h-16 w-16" /> : TIMES[time]}</div>
-          <input type="range" min={0} max={TIMES.length - 1} value={time} onChange={(e) => { setTime(+e.target.value); sfx("ui_move", 0.15); }} className="mt-3 w-full accent-[#4fd8ff]" aria-label="Round time" />
+          <div className="mt-4 text-center font-digital text-6xl text-cyan sm:text-7xl" style={{ textShadow: "0 0 24px #4fd8ff88" }}>{TIMES[time] === "∞" ? <Inf className="mx-auto h-16 w-16" /> : TIMES[time]}</div>
+          <input type="range" min={0} max={TIMES.length - 1} value={time} onChange={(e) => { setTime(+e.target.value); sfx("ui_move", 0.15); }} className="mt-3 h-8 w-full accent-[#4fd8ff]" aria-label="Round time" />
           <p className="mt-2 text-sm text-white/65">When time runs out, the fighter with the highest health percentage wins the round. A tie goes to <b className="text-brand-red">Sudden Death</b>.</p>
         </Reveal>
       </div>
 
-      <Reveal className="panel mt-6 p-7 md:p-9">
+      <Reveal className="panel mt-6 p-5 sm:p-7 md:p-9">
         <div className="flex items-center gap-3"><Users className="w-6 h-6 text-mint" /><h3 className="font-display text-3xl">Team lanes & fair-play handicap</h3></div>
         <p className="mt-1 text-sm text-white/60">Pick a layout for four players. Teammates never hurt each other.</p>
         <div className="mt-5 flex flex-wrap gap-2">
           {LAYOUTS.map((l, i) => (
-            <button key={l.name} onClick={() => { setLay(i); sfx("ui_move", 0.3); }} className="cursor-pointer rounded-lg px-4 py-2 font-ui text-xs uppercase tracking-wider transition-colors" style={{ background: i === lay ? "#4be3a0" : "rgba(255,255,255,0.07)", color: i === lay ? "#0b0b1c" : "#fff" }}>{l.name}</button>
+            <button key={l.name} onClick={() => { setLay(i); sfx("ui_move", 0.3); }} className="cursor-pointer rounded-lg px-3.5 py-2.5 font-ui text-xs uppercase tracking-wider transition-colors active:scale-95 sm:px-4 sm:py-2" style={{ background: i === lay ? "#4be3a0" : "rgba(255,255,255,0.07)", color: i === lay ? "#0b0b1c" : "#fff" }}>{l.name}</button>
           ))}
         </div>
         <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -72,7 +72,7 @@ export function Rules() {
             </div>
           ))}
         </div>
-        <div className="mt-6 grid gap-4 md:grid-cols-4" key={lay}>
+        <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-4 md:grid-cols-4" key={lay}>
           <StatBar label="Damage" value={nerf.dmg / 100} display={`${nerf.dmg}%`} color="#ff4040" />
           <StatBar label="Fire rate" value={nerf.rate / 100} display={`${nerf.rate}%`} color="#ffd23f" delay={0.05} />
           <StatBar label="Move speed" value={nerf.speed / 100} display={`${nerf.speed}%`} color="#4be3a0" delay={0.1} />
@@ -87,7 +87,7 @@ export function Rules() {
           { i: <Shield className="w-7 h-7 text-cyan" />, t: "Flawless victory", d: "Win a round without losing a single heart and the announcer lets everyone know." },
           { i: <Crown className="w-7 h-7 text-gold" />, t: "Sudden Death", d: "Equal health at the buzzer? A tie-breaker round decides who takes the point." },
         ].map((x, i) => (
-          <Reveal key={x.t} delay={i * 0.07} className="panel flex gap-4 p-5">{x.i}<div><p className="font-ui text-lg">{x.t}</p><p className="mt-1 text-sm text-white/65">{x.d}</p></div></Reveal>
+          <Reveal key={x.t} delay={i * 0.07} className="panel flex gap-4 p-4 sm:p-5">{x.i}<div><p className="font-ui text-lg">{x.t}</p><p className="mt-1 text-sm text-white/65">{x.d}</p></div></Reveal>
         ))}
       </div>
     </Page>
