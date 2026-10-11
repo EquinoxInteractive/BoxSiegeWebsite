@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
-@font-face { font-family: "Badaboom"; src: url("/assets/font/badaboom.ttf") format("truetype"); font-display: swap; }
-@font-face { font-family: "Lilita One"; src: url("/assets/font/lilita_one.ttf") format("truetype"); font-display: swap; }
-@font-face { font-family: "Digital7"; src: url("/assets/font/digital7.ttf") format("truetype"); font-display: swap; }
+/* Font di-bundle oleh Vite (path relatif => di-hash & dijamin ikut ter-deploy ke Vercel).
+   Jangan ganti ke path absolut "/assets/font/..." karena bisa 404 / kena rewrite SPA di production. */
+@font-face { font-family: "Badaboom"; src: url("./assets/fonts/badaboom.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Lilita One"; src: url("./assets/fonts/lilita_one.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Digital7"; src: url("./assets/fonts/digital7.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 
 @theme {
   --font-display: "Badaboom", "Impact", sans-serif;
