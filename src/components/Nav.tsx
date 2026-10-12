@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { Download, Menu, X } from "lucide-react";
+import { BETA_WORD } from "@/data/game";
 import { HOME, NAV_PAGES, PAGES } from "@/data/pages";
 import { sfx } from "@/lib/audio";
 
@@ -124,7 +125,7 @@ export function Nav() {
           <div className="flex shrink-0 items-center gap-3">
             {/* desktop: download button (on mobile it lives inside the menu) */}
             <Link to="/download" onClick={() => sfx("ui_confirm", 0.35)} className="skew-btn hidden !py-2.5 !px-5 !text-xs !shadow-none xl:inline-flex">
-              <span className="flex items-center gap-2"><Download className="h-4 w-4" /> Download</span>
+              <span className="flex items-center gap-2"><Download className="h-4 w-4" /> Download{BETA_WORD}</span>
             </Link>
 
             <button
@@ -205,7 +206,7 @@ export function Nav() {
                   className="skew-btn w-full !py-3.5 !text-sm"
                   aria-current={pathname === "/download" ? "page" : undefined}
                 >
-                  <span className="flex items-center gap-2.5"><Download className="h-5 w-5" /> Download free</span>
+                  <span className="flex items-center gap-2.5"><Download className="h-5 w-5" /> Download{BETA_WORD} free</span>
                 </Link>
               </div>
             </div>

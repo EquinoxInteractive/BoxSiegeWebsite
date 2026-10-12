@@ -30,7 +30,7 @@ export const HOME: PageDef = {
   countLabel: "",
   stage: "earth",
   facts: [],
-  desc: "BOX SIEGE: a chaotic local PvP brawler for 2–4 players plus a 250-level solo campaign. 24 fighters, 10 arenas, 9 power-ups, 250 levels, 50 bosses, a full shop. Free for Windows.",
+  desc: "BOX SIEGE: a chaotic local PvP brawler for 2–4 players plus a 250-level solo campaign. 24 fighters, 10 arenas, 9 power-ups, 250 levels, 50 bosses, a full shop. Free for Windows, macOS and Linux.",
 };
 
 export const PAGES: PageDef[] = [
@@ -99,10 +99,10 @@ export const PAGES: PageDef[] = [
   },
   {
     id: "download", path: "/download", label: "Download", icon: Download, accent: "#ffd23f",
-    blurb: "Free for Windows. Unzip and brawl.",
-    count: "Free", countLabel: "for Windows", stage: "safari",
-    facts: ["Windows 10 / 11 (64-bit)", "Keyboard and / or gamepads", "6 GB RAM recommended"],
-    desc: "Download BOX SIEGE for Windows, free. System requirements and install steps.",
+    blurb: "Free for Windows, macOS and Linux.",
+    count: "Free", countLabel: "on 3 platforms", stage: "safari",
+    facts: ["Windows, macOS and Linux", "Keyboard and / or gamepads", "6 GB RAM recommended"],
+    desc: "Download BOX SIEGE for Windows, macOS and Linux, free. System requirements and install steps.",
   },
 ];
 

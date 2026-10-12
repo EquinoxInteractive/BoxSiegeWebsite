@@ -371,33 +371,46 @@ export const LINKS = {
   tiktok: "https://www.tiktok.com/@equinox.interactive",
   instagram: "https://www.instagram.com/equinox.interactive/",
   x: "https://x.com/EquinoxIntratve",
+  /** GitHub Issues: tombol "Report an issue" di halaman Download */
+  issues: "https://github.com/EquinoxInteractive/BoxSiegeGodot/issues",
 };
 
-/** Direct download links. Only the /download page uses these. Every other button links to the /download route. */
+/** Direct download links (GitHub Releases). Windows = .exe, macOS & Linux = .zip */
 export const DOWNLOAD = {
-  windows: "https://github.com/EquinoxInteractive/BoxSiege/releases/download/Game/BOX-SIEGE.zip",
-  macos: "https://github.com/EquinoxInteractive/BoxSiege/releases/download/Game/BOX-SIEGE.zip",
-  linux: "https://github.com/EquinoxInteractive/BoxSiege/releases/download/Game/BOX-SIEGE.zip",
+  windows: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/Windows/BoxSiege.exe",
+  macos: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/MacOS/BoxSiege.zip",
+  linux: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/Linux/BoxSiege.zip",
 } as const;
 
-// ───────────────────────────── game status ─────────────────────────────
+// ───────────────────────────── game status (BETA / RELEASE) ─────────────────────────────
 /**
- * ➜ To change the status shown on the whole site, edit ONLY the line `GAME_STATUS` below.
- *    "released"    → green "Released" badge, normal download wording.
- *    "development" → gold "In development" badge, "early build" wording.
+ * ➜ UBAH SATU BARIS INI SAJA untuk mengganti status seluruh website:
+ *
+ *      export const GAME_STATUS: GameStatus = "beta";       // badge "Beta", tombol "Download Beta", banner peringatan beta
+ *      export const GAME_STATUS: GameStatus = "released";   // badge "Released", tombol "Download", tanpa kata beta
+ *
+ *  Semua teks, badge, tombol, banner di Home, Download, Footer dan Hero ikut berubah otomatis.
  */
-export type GameStatus = "released" | "development";
-export const GAME_STATUS: GameStatus = "development";
+export type GameStatus = "beta" | "released";
+export const GAME_STATUS: GameStatus = "beta";
 
-export const STATUS_INFO: Record<GameStatus, { label: string; color: string; cta: string }> = {
+/** true selama status masih beta (dipakai komponen untuk menampilkan/menyembunyikan teks beta) */
+export const IS_BETA: boolean = (GAME_STATUS as GameStatus) === "beta";
+
+/** Kata tambahan untuk tombol / judul: " Beta" saat beta, "" saat rilis */
+export const BETA_WORD: string = IS_BETA ? " Beta" : "";
+
+export const STATUS_INFO: Record<GameStatus, { label: string; color: string; cta: string; notice: string }> = {
+  beta: {
+    label: "Beta",
+    color: "#ffd23f",
+    cta: "BOX SIEGE is now playable in open beta. Free for Windows, macOS and Linux. Download it, bring your friends and help us squash bugs.",
+    notice: "This is a beta build. Expect bugs, rough edges and frequent updates. Thanks for testing!",
+  },
   released: {
     label: "Released",
     color: "#4be3a0",
-    cta: "Free for Windows. Download, unzip, plug in a few controllers and start brawling.",
-  },
-  development: {
-    label: "In development",
-    color: "#ffd23f",
-    cta: "BOX SIEGE is still in development. Grab the latest build, expect rough edges and new updates.",
+    cta: "Free for Windows, macOS and Linux. Download, plug in a few controllers and start brawling.",
+    notice: "",
   },
 };

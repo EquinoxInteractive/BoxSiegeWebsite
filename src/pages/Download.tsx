@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { FileArchive, FolderOpen, Gamepad2, Monitor } from "lucide-react";
+import { FileArchive, FlaskConical, FolderOpen, Gamepad2, Monitor } from "lucide-react";
+import { GAME_STATUS, IS_BETA, STATUS_INFO } from "@/data/game";
 import { PAGES } from "@/data/pages";
 import { Page } from "@/components/Page";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -11,17 +12,23 @@ import { sfx } from "@/lib/audio";
 
 const STEPS = [
   { icon: FileArchive, title: "Download the game", text: "One free file for your platform." },
-  { icon: FolderOpen, title: "Unpack it", text: "Extract it into a folder." },
+  { icon: FolderOpen, title: "Run or unpack it", text: "Windows: run the .exe. macOS and Linux: extract the .zip, then launch the game." },
   { icon: Gamepad2, title: "Plug in and brawl", text: "Plug in a few controllers or share one keyboard, then start a match." },
 ];
 
 export default function Download() {
-  const live = PLATFORMS.filter((p) => p.url !== null).map((p) => p.name);
-  const soon = PLATFORMS.filter((p) => p.url === null).map((p) => p.name);
-  const intro = `Free for ${live.length ? live.join(" and ") : "everyone"}${soon.length ? `, with ${soon.join(" and ")} coming soon` : ""}. Download, unpack, plug in a few controllers and start brawling.`;
+  const intro = `Free for Windows, macOS and Linux.${IS_BETA ? " Currently in beta." : ""} Download, plug in a few controllers and start brawling.`;
   const inside = PAGES.filter((p) => ["fighters", "arsenal", "arenas", "powerups", "campaign", "shop"].includes(p.id));
   return (
     <Page id="download" title="Download" intro={intro}>
+      {IS_BETA && (
+        <Reveal className="mx-auto mb-8 max-w-3xl">
+          <div className="flex items-start gap-3 rounded-2xl border p-4 text-left sm:items-center sm:p-5" style={{ borderColor: `${STATUS_INFO[GAME_STATUS].color}55`, background: `${STATUS_INFO[GAME_STATUS].color}12` }}>
+            <FlaskConical className="mt-0.5 h-6 w-6 shrink-0 sm:mt-0" style={{ color: STATUS_INFO[GAME_STATUS].color }} />
+            <p className="text-sm text-white/80 sm:text-base">{STATUS_INFO[GAME_STATUS].notice}</p>
+          </div>
+        </Reveal>
+      )}
       <PlatformCards />
 
       <Reveal className="mx-auto mt-14 max-w-4xl text-center sm:mt-20">
@@ -56,7 +63,7 @@ export default function Download() {
             {PLATFORMS.map((p) => (
               <Fragment key={p.id}>
                 <dt className="text-white/50">{p.name}</dt>
-                <dd>{p.detail}{p.url === null && <span className="ml-2 text-xs text-gold">coming soon</span>}</dd>
+                <dd>{p.detail}</dd>
               </Fragment>
             ))}
             <dt className="text-white/50">Memory</dt><dd>6 GB RAM recommended</dd>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Download as DL } from "lucide-react";
-import { CHARACTERS, GAME_STATUS, STATUS_INFO } from "@/data/game";
+import { BETA_WORD, CHARACTERS, GAME_STATUS, STATUS_INFO } from "@/data/game";
 import { Reveal } from "./ui";
 import { sfx } from "@/lib/audio";
 
@@ -18,7 +18,7 @@ export function DownloadCta() {
         <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">{STATUS_INFO[GAME_STATUS].cta}</p>
         <div className="mx-auto mt-8 flex max-w-sm flex-col items-stretch gap-4 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-5 md:mt-9">
           <Link to="/download" onMouseEnter={() => sfx("ui_hover", 0.15)} onClick={() => sfx("ui_confirm", 0.4)} className="skew-btn !px-6 !py-4 !text-base sm:!px-12 sm:!py-5 sm:!text-lg">
-            <span className="flex items-center gap-2.5 sm:gap-3"><DL className="h-5 w-5 sm:h-6 sm:w-6" /> Download for Windows</span>
+            <span className="flex items-center gap-2.5 sm:gap-3"><DL className="h-5 w-5 sm:h-6 sm:w-6" /> Download{BETA_WORD} now</span>
           </Link>
           <Link to="/modes" onClick={() => sfx("ui_confirm", 0.35)} className="skew-btn ghost"><span>Explore game modes</span></Link>
         </div>

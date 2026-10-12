@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Download, Swords } from "lucide-react";
-import { ARENAS, CHARACTERS, POWERUPS, weaponImg, MUZZLE } from "@/data/game";
+import { ARENAS, BETA_WORD, CHARACTERS, POWERUPS, weaponImg, MUZZLE } from "@/data/game";
 import { Counter, EASE } from "./ui";
 import { sfx } from "@/lib/audio";
 import { StatusBadge } from "./StatusBadge";
@@ -90,7 +90,7 @@ export function Hero() {
           <StatusBadge />
           <span className="chip text-gold border-gold/40">Local multiplayer · 2–4 players</span>
           <span className="chip text-cyan border-cyan/40">Solo campaign · 250 levels</span>
-          <span className="chip text-mint border-mint/40">Free for Windows</span>
+          <span className="chip text-mint border-mint/40">Free · Windows, macOS, Linux</span>
         </motion.div>
 
         <motion.img
@@ -108,7 +108,7 @@ export function Hero() {
 
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1, duration: 0.7, ease: EASE }} className="mx-auto mt-7 flex max-w-sm flex-col items-stretch gap-4 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center sm:gap-5 md:mt-9">
           <Link to="/download" className="skew-btn" onMouseEnter={() => sfx("ui_hover", 0.15)} onClick={() => sfx("ui_confirm", 0.4)}>
-            <span className="flex items-center gap-2.5"><Download className="w-5 h-5" /> Download free</span>
+            <span className="flex items-center gap-2.5"><Download className="w-5 h-5" /> Download{BETA_WORD} free</span>
           </Link>
           <button
             onClick={() => { sfx("ui_confirm", 0.4); document.getElementById("explore")?.scrollIntoView({ behavior: "smooth" }); }}

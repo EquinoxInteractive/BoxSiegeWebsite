@@ -1,10 +1,10 @@
-import { Hammer, Rocket } from "lucide-react";
-import { GAME_STATUS, STATUS_INFO } from "@/data/game";
+import { FlaskConical, Rocket } from "lucide-react";
+import { GAME_STATUS, IS_BETA, STATUS_INFO } from "@/data/game";
 
-/** Small pill showing whether the game is released or still in development (set GAME_STATUS in data/game.ts). */
+/** Small pill showing "Beta" or "Released". Controlled by GAME_STATUS in data/game.ts. */
 export function StatusBadge({ className = "" }: { className?: string }) {
   const info = STATUS_INFO[GAME_STATUS];
-  const Icon = GAME_STATUS === "released" ? Rocket : Hammer;
+  const Icon = IS_BETA ? FlaskConical : Rocket;
   return (
     <span
       className={`chip ${className}`}

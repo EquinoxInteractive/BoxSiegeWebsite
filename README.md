@@ -64,8 +64,8 @@ An additional 404 page handles unknown routes.
 | Interactive Previews | Test-fire weapons, preview fighter skins and accessories, and see keyboard keys light up as they are pressed |
 | Soundtrack and Sound Effects | A built-in music player with four tracks (Main Menu, Campaign, Battle, Boss Fight), volume control, and a sound effects toggle |
 | Themed Page Backdrops | Every page is dressed with the stage art of one of the game's arenas, with drifting box particles in the background |
-| Game Status System | A single setting switches the whole site between "In development" and "Released" wording, badges, and call to action text |
-| Download Hub | Per-platform download cards for Windows, macOS, and Linux with availability states, system requirements, and install steps |
+| Game Status System | A single setting (`GAME_STATUS`) switches the whole site between "Beta" and "Released" wording, badges, buttons, and call to action text |
+| Download Hub | Per-platform download cards for Windows, macOS, and Linux with direct downloads (.exe for Windows, .zip for macOS and Linux), system requirements, and install steps |
 | Gameplay Preview Video | A configurable preview video that supports local files, YouTube, Google Drive, and direct video links |
 | Responsive Layout | Optimized experience across desktop, tablet, and mobile, including a mobile navigation menu and safe-area support for notched devices |
 | Accessibility | Reduced-motion support, keyboard focus management on page change, and descriptive labels on interactive controls |
@@ -170,9 +170,9 @@ Most day-to-day changes only need a single line to be edited.
 
 | Task | Where |
 |---|---|
-| Switch the site between "In development" and "Released" | Change `GAME_STATUS` in `src/data/game.ts` |
+| Switch the site between "Beta" and "Released" | Change `GAME_STATUS` in `src/data/game.ts` (`"beta"` or `"released"`) |
 | Update direct download links | Edit the `DOWNLOAD` object in `src/data/game.ts` |
-| Enable a platform on the Download page | Set the platform's `url` in `src/components/PlatformCards.tsx` (a `null` value shows "Coming soon") |
+| Change a platform's download link | Edit the `DOWNLOAD` object in `src/data/game.ts` (Windows = `.exe`, macOS and Linux = `.zip`) |
 | Set the gameplay preview video | Change `PREVIEW_VIDEO` in `src/components/Trailer.tsx` (local file, YouTube, Google Drive, or direct link) |
 | Update social links | Edit the `LINKS` object in `src/data/game.ts` |
 | Add or edit a page | Edit `src/data/pages.ts` and the matching file in `src/pages/` |
@@ -234,7 +234,7 @@ The scripts in `tools/` are maintainer utilities used to convert the game's orig
 
 ## Disclaimer
 
-BOX SIEGE Website is the official website for BOX SIEGE by Equinox Interactive. The game is currently in development, and the content, features, and download availability shown on this site may change before release. All game artwork, characters, music, and sound effects belong to their respective creators and are used here solely to present the game. Third-party names and logos (such as Windows, macOS, and Linux) belong to their respective owners.
+BOX SIEGE Website is the official website for BOX SIEGE by Equinox Interactive. The game is currently in beta, and the content, features, and download availability shown on this site may change before the full release. All game artwork, characters, music, and sound effects belong to their respective creators and are used here solely to present the game. Third-party names and logos (such as Windows, macOS, and Linux) belong to their respective owners.
 
 ---
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LINKS } from "@/data/game";
+import { IS_BETA, LINKS } from "@/data/game";
 import { PAGES } from "@/data/pages";
 import { InstagramIcon, TikTokIcon, XIcon } from "./BrandIcons";
 
@@ -23,7 +23,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-9 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-10">
         <div className="col-span-2 md:col-span-1">
           <Link to="/" aria-label="BOX SIEGE home"><img src="/assets/ui/title.webp" alt="BOX SIEGE" className="px h-12 w-auto" /></Link>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">A chaotic local brawler for 2–4 players, plus a 250-level solo campaign. Free for Windows.</p>
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">A chaotic local brawler for 2–4 players, plus a 250-level solo campaign. Free for Windows, macOS and Linux.{IS_BETA && " Now in open beta."}</p>
           <div className="mt-5 flex items-center gap-3">
             {SOCIALS.map(({ label, href, Icon }) => (
               <a
@@ -56,7 +56,7 @@ export function Footer() {
         <div className="col-span-2 md:col-span-1">
           <p className="font-display text-2xl text-gold">Get the game</p>
           <ul className="mt-2 grid gap-2 text-sm md:mt-3">
-            <li><Link to="/download" className="block py-1.5 text-white/70 transition-colors hover:text-white active:text-gold md:py-0">Download &amp; system requirements</Link></li>
+            <li><Link to="/download" className="block py-1.5 text-white/70 transition-colors hover:text-white active:text-gold md:py-0">Download{IS_BETA ? " the beta" : ""} &amp; system requirements</Link></li>
           </ul>
         </div>
       </div>
