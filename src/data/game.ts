@@ -379,7 +379,7 @@ export const LINKS = {
 export const DOWNLOAD = {
   windows: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/Windows/BoxSiege.exe",
   macos: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/MacOS/BoxSiege.zip",
-  linux: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/Linux/BoxSiege.zip",
+  linux: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/Linux/BoxSiege.x86_64",
 } as const;
 
 // ───────────────────────────── game status (BETA / RELEASE) ─────────────────────────────
@@ -392,7 +392,7 @@ export const DOWNLOAD = {
  *  Semua teks, badge, tombol, banner di Home, Download, Footer dan Hero ikut berubah otomatis.
  */
 export type GameStatus = "beta" | "released";
-export const GAME_STATUS: GameStatus = "beta";
+export const GAME_STATUS: GameStatus = "released";
 
 /** true selama status masih beta (dipakai komponen untuk menampilkan/menyembunyikan teks beta) */
 export const IS_BETA: boolean = (GAME_STATUS as GameStatus) === "beta";

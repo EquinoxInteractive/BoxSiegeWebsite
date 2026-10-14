@@ -34,7 +34,7 @@ export const PLATFORMS: Platform[] = [
   },
   {
     id: "linux", name: "Linux", icon: LinuxIcon, accent: "#ff9d2e",
-    detail: "64-bit distro with glibc 2.31+", file: ".zip", url: DOWNLOAD.linux,
+    detail: "64-bit distro with glibc 2.31+", file: ".x86_64", url: DOWNLOAD.linux,
   },
 ];
 

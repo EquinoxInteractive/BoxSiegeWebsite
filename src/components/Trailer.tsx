@@ -3,6 +3,9 @@ import { ExternalLink, Film, Play } from "lucide-react";
 import { A, ARENAS } from "@/data/game";
 import { Reveal } from "./ui";
 import { StatusBadge } from "./StatusBadge";
+// Thumbnail (foto) yang tampil SEBELUM video dimulai.
+// Foto ada di: src/assets/foto/thumbnail.png  (diimpor lewat Vite supaya path-nya selalu benar)
+import thumbnail from "@/assets/foto/thumbnail.png";
 
 /**
  * ─── HOW TO SET YOUR VIDEO ────────────────────────────────────────────────────
@@ -14,17 +17,19 @@ import { StatusBadge } from "./StatusBadge";
  *  4. DIRECT LINK  "https://example.com/video.mp4"                   (any link ending in .mp4 / .webm / .ogg / .mov)
  *
  *  Leave it as "" to show the "coming soon" placeholder.
- *  PREVIEW_POSTER is only used for local files and direct links (optional cover image).
+ *
+ *  THUMBNAIL: PREVIEW_POSTER di bawah dipakai untuk SEMUA jenis video
+ *  (lokal, YouTube, Google Drive, direct link). Untuk mengganti fotonya,
+ *  timpa file src/assets/foto/thumbnail.png dengan foto baru (nama file sama).
  * ────────────────────────────────────────────────────────────────────────────── */
 // export const PREVIEW_VIDEO: string = `${A}/video/preview.mp4`;
-export const PREVIEW_VIDEO: string = "https://drive.google.com/file/d/1qDZdTi-WrF8lFJd6TQTFB3xR_LHUYBYd/preview";
+export const PREVIEW_VIDEO: string = "https://drive.google.com/file/d/1tQpIGpuyPyJLm1apSF4Mr9ykE_CCs8sC/preview";
 
-const PREVIEW_POSTER: string = `${A}/video/preview.jpg`;
-
+const PREVIEW_POSTER: string = thumbnail;
 
 type Source =
-  | { kind: "youtube"; id: string; src: string; open: string; poster: string }
-  | { kind: "drive"; id: string; src: string; open: string; poster: string }
+  | { kind: "youtube"; id: string; src: string; open: string }
+  | { kind: "drive"; id: string; src: string; open: string }
   | { kind: "file"; src: string }
   | { kind: "none" };
 
@@ -40,7 +45,6 @@ function parseSource(raw: string): Source {
       kind: "youtube", id: yt[1],
       src: `https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0&modestbranding=1&playsinline=1`,
       open: `https://www.youtube.com/watch?v=${yt[1]}`,
-      poster: `https://i.ytimg.com/vi/${yt[1]}/hqdefault.jpg`,
     };
   }
 
@@ -52,7 +56,6 @@ function parseSource(raw: string): Source {
         kind: "drive", id: d[1],
         src: `https://drive.google.com/file/d/${d[1]}/preview`,
         open: `https://drive.google.com/file/d/${d[1]}/view`,
-        poster: `https://drive.google.com/thumbnail?id=${d[1]}&sz=w1280`,
       };
     }
     return { kind: "none" };
@@ -75,8 +78,27 @@ function Placeholder() {
   );
 }
 
+/** Tombol play bulat (dipakai di atas thumbnail). */
+function PlayBadge() {
+  return (
+    <span className="relative grid place-items-center">
+      <span className="absolute h-16 w-16 rounded-full bg-gold/60 sm:h-20 sm:w-20" style={{ animation: "pulse-ring 1.8s ease-out infinite" }} />
+      <span className="relative grid h-16 w-16 place-items-center rounded-full bg-gold text-ink shadow-[0_0_0_4px_#0b0b1c,0_0_0_6px_#ffd23f,0_14px_30px_-8px_rgba(255,210,63,0.6)] transition-transform group-active:scale-95 sm:h-20 sm:w-20 sm:group-hover:scale-110">
+        <Play className="ml-1 h-7 w-7 sm:h-9 sm:w-9" fill="currentColor" />
+      </span>
+    </span>
+  );
+}
+
+/** Foto thumbnail sebagai layer background (dengan gambar arena sebagai cadangan jika foto gagal dimuat). */
+const THUMB_STYLE = {
+  background: `url(${PREVIEW_POSTER}) center/cover no-repeat, url(${ARENAS[0].bg}) center/cover no-repeat`,
+  imageRendering: "auto",
+} as const;
+
 /**
  * Embedded players (Google Drive / YouTube) are not loaded until you tap play.
+ * Sebelum di-tap, yang tampil adalah foto thumbnail + tombol play.
  * Why: a Drive player mounted straight into the page (lazy, inside animated and blurred
  * wrappers) often renders tiny, black or without controls on phones. Loading it from a
  * tap gives it a real, visible, full-width box and a user gesture, so it plays normally.
@@ -103,17 +125,32 @@ function EmbedFacade({ source }: { source: Extract<Source, { kind: "youtube" | "
       onClick={() => setActive(true)}
       aria-label="Play gameplay preview"
       className="group absolute inset-0 grid cursor-pointer place-items-center overflow-hidden"
-      style={{ background: `url(${source.poster}) center/cover no-repeat, url(${ARENAS[0].bg}) center/cover no-repeat`, imageRendering: "auto" }}
+      style={THUMB_STYLE}
     >
       <span className="absolute inset-0 bg-gradient-to-t from-[#0b0b1c]/80 via-[#0b0b1c]/25 to-[#0b0b1c]/40" />
-      <span className="relative grid place-items-center">
-        <span className="absolute h-16 w-16 rounded-full bg-gold/60 sm:h-20 sm:w-20" style={{ animation: "pulse-ring 1.8s ease-out infinite" }} />
-        <span className="relative grid h-16 w-16 place-items-center rounded-full bg-gold text-ink shadow-[0_0_0_4px_#0b0b1c,0_0_0_6px_#ffd23f,0_14px_30px_-8px_rgba(255,210,63,0.6)] transition-transform group-active:scale-95 sm:h-20 sm:w-20 sm:group-hover:scale-110">
-          <Play className="ml-1 h-7 w-7 sm:h-9 sm:w-9" fill="currentColor" />
-        </span>
-      </span>
+      <PlayBadge />
       <span className="absolute inset-x-0 bottom-3 text-center font-ui text-xs uppercase tracking-[0.2em] text-white/80 sm:bottom-4 sm:text-sm">Tap to play</span>
     </button>
+  );
+}
+
+/**
+ * Video lokal / direct link: thumbnail ditampilkan lewat atribut `poster`
+ * dan ikut hilang otomatis saat video dimulai.
+ */
+function FilePlayer({ src, onError }: { src: string; onError: () => void }) {
+  return (
+    <video
+      src={src}
+      poster={PREVIEW_POSTER}
+      controls
+      playsInline
+      preload="metadata"
+      onError={onError}
+      className="absolute inset-0 h-full w-full bg-black object-cover"
+    >
+      Your browser does not support video playback.
+    </video>
   );
 }
 
@@ -131,17 +168,7 @@ export function VideoPreview({ className = "" }: { className?: string }) {
           {source.kind === "none" || (source.kind === "file" && failed) ? (
             <Placeholder />
           ) : source.kind === "file" ? (
-            <video
-              src={source.src}
-              poster={PREVIEW_POSTER || undefined}
-              controls
-              playsInline
-              preload="metadata"
-              onError={() => setFailed(true)}
-              className="absolute inset-0 h-full w-full object-contain"
-            >
-              Your browser does not support video playback.
-            </video>
+            <FilePlayer src={source.src} onError={() => setFailed(true)} />
           ) : (
             <EmbedFacade source={source} />
           )}
