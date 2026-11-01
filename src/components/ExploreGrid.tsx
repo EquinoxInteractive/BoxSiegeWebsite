@@ -56,7 +56,6 @@ export function ExploreGrid() {
         </Reveal>
 
         <motion.ul variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="grid gap-4 sm:grid-cols-2 lg:auto-rows-[230px] lg:grid-cols-12">
-          {/* Fighters: a crowd of boxes */}
           <Tile id="fighters" className="sm:col-span-2 lg:col-span-5 lg:row-span-2" tall blurbW="30ch">
             {[0, 5, 8, 11, 16, 19, 21, 23].map((c, i) => (
               <img key={c} src={CHARACTERS[c].img} alt="" className={`${sprite} animate-bob w-[21%] group-hover:-translate-y-2`}
@@ -64,15 +63,13 @@ export function ExploreGrid() {
             ))}
           </Tile>
 
-          {/* Arsenal */}
           <Tile id="arsenal" className="lg:col-span-4" blurbW="19ch">
             {(["smith", "kurval", "flamer"] as const).map((w, i) => (
               <img key={w} src={weaponImg(w, i)} alt="" className={`${sprite} w-[42%] group-hover:translate-x-1`}
                 style={{ right: `${3 + i * 3}%`, bottom: `${3 + i * 17}%`, transform: `rotate(${[-8, 3, -3][i]}deg)` }} />
             ))}
           </Tile>
-
-          {/* Power-ups */}
+          
           <Tile id="powerups" className="lg:col-span-3" blurbW="15ch">
             {["shield", "heal"].map((id, i) => {
               const p = POWERUPS.find((x) => x.id === id)!;
@@ -80,7 +77,6 @@ export function ExploreGrid() {
             })}
           </Tile>
 
-          {/* Arenas */}
           <Tile id="arenas" className="sm:col-span-2 lg:col-span-7">
             {(["ocean", "space", "factory"] as const).map((id, i) => (
               <img key={id} src={ARENAS.find((a) => a.id === id)!.bg} alt="" className="px absolute aspect-video w-[24%] rounded-lg border-[3px] border-black/70 object-cover shadow-[0_10px_0_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:-translate-y-2"
@@ -88,7 +84,6 @@ export function ExploreGrid() {
             ))}
           </Tile>
 
-          {/* Campaign */}
           <Tile id="campaign" className="sm:col-span-2 lg:col-span-7">
             <img src={CHARACTERS[21].img} alt="" className={`${sprite} animate-bob w-[22%]`} style={{ right: "6%", bottom: "6%" }} />
             <img src={weaponImg("kurval", 1)} alt="" className="px absolute w-[19%] max-w-none" style={{ right: "22%", bottom: "20%", transform: "scaleX(-1)" }} />
@@ -96,7 +91,6 @@ export function ExploreGrid() {
             {[0, 1, 2].map((i) => <img key={i} src={`${A}/camp/star.webp`} alt="" className="px animate-bob-rot absolute w-[5%] max-w-none" style={{ right: `${12 + i * 7}%`, top: `${14 + (i % 2) * 8}%`, animationDelay: `${i * 0.4}s` }} />)}
           </Tile>
 
-          {/* Shop: a fighter trying things on */}
           <Tile id="shop" className="sm:col-span-2 lg:col-span-5 lg:row-span-2">
             <span className="absolute bottom-[10%] right-[8%] w-[46%]">
               <span className="block animate-bob">
@@ -108,12 +102,10 @@ export function ExploreGrid() {
             ))}
           </Tile>
 
-          {/* Match rules */}
           <Tile id="rules" className="lg:col-span-4" blurbW="21ch">
             {[0, 1, 2].map((i) => <img key={i} src={`${A}/ui/heart.webp`} alt="" className="px animate-bob absolute w-[11%] max-w-none" style={{ right: `${6 + i * 13}%`, bottom: `${12 + (i % 2) * 12}%`, animationDelay: `${i * 0.4}s` }} />)}
           </Tile>
 
-          {/* Controls */}
           <Tile id="controls" className="lg:col-span-3" blurbW="14ch">
             <span className="absolute bottom-[8%] right-[6%] grid grid-cols-3 gap-1">
               {[["", 0], ["W", 1], ["", 2], ["A", 3], ["S", 4], ["D", 5]].map(([k, n]) =>

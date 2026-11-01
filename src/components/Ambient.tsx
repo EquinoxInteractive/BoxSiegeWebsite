@@ -59,7 +59,6 @@ export function MusicPlayer() {
 
   useEffect(() => { if (audio.current) audio.current.volume = vol; }, [vol]);
 
-  // tap outside (or press Esc) closes the panel, so it never gets stuck over the page on a phone
   useEffect(() => {
     if (!open) return;
     const onDown = (e: PointerEvent) => { if (dock.current && !dock.current.contains(e.target as Node)) setOpen(false); };

@@ -3,21 +3,15 @@ import { FighterFace } from "./ui";
 
 type Item = {
   src?: string;
-  /** width in px on a 1440px-wide screen; scales down with the viewport */
   w: number;
-  /** left offset in % of the art area */
   x: number;
-  /** distance from the floor in px (0 = standing on it) */
   y?: number;
   rot?: number;
-  /** floating objects bob and tilt; characters just bob */
   float?: boolean;
   frame?: boolean;
   cap?: { label: string; color: string };
   glow?: string;
-  /** a fighter wearing accessories (ids from the shop): [character index, accessory ids] */
   wear?: [number, string[]];
-  /** weapon drawn in the fighter's hand: [weapon, player colour index, side the gun points to] */
   gun?: [WeaponId, number, "l" | "r"];
   z?: number;
 };
@@ -99,7 +93,6 @@ const ART: Record<string, Item[]> = {
 
 const width = (w: number) => `clamp(${Math.round(w * 0.5)}px, ${(w / 14.4).toFixed(2)}vw, ${w}px)`;
 
-/** Decorative sprites that stand on (or float above) the floor strip of a page header. Desktop only. */
 export function PageArt({ id }: { id: string }) {
   const items = ART[id] ?? [];
   return (

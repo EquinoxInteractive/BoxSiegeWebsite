@@ -3,8 +3,6 @@ import { ExternalLink, Film, Play } from "lucide-react";
 import { A, ARENAS } from "@/data/game";
 import { Reveal } from "./ui";
 import { StatusBadge } from "./StatusBadge";
-// Thumbnail (foto) yang tampil SEBELUM video dimulai.
-// Foto ada di: src/assets/foto/thumbnail.png  (diimpor lewat Vite supaya path-nya selalu benar)
 import thumbnail from "@/assets/foto/thumbnail.png";
 
 /**
@@ -33,12 +31,10 @@ type Source =
   | { kind: "file"; src: string }
   | { kind: "none" };
 
-/** Works out what kind of video link was given and turns it into something that can be embedded. */
 function parseSource(raw: string): Source {
   const url = raw.trim();
   if (!url) return { kind: "none" };
 
-  // YouTube: watch?v=, youtu.be/, /shorts/, /embed/, /live/
   const yt = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/|v\/)|youtu\.be\/)([\w-]{11})/i);
   if (yt) {
     return {
@@ -48,7 +44,6 @@ function parseSource(raw: string): Source {
     };
   }
 
-  // Google Drive: /file/d/ID/…, open?id=ID, uc?id=ID
   if (/drive\.google\.com/i.test(url)) {
     const d = url.match(/\/file\/d\/([\w-]+)/i) ?? url.match(/[?&]id=([\w-]+)/i);
     if (d) {
@@ -61,7 +56,6 @@ function parseSource(raw: string): Source {
     return { kind: "none" };
   }
 
-  // local file (starts with "/") or any direct https link to a video file
   if (url.startsWith("/") || /^https?:\/\//i.test(url)) return { kind: "file", src: url };
 
   return { kind: "none" };
@@ -78,7 +72,6 @@ function Placeholder() {
   );
 }
 
-/** Tombol play bulat (dipakai di atas thumbnail). */
 function PlayBadge() {
   return (
     <span className="relative grid place-items-center">
@@ -90,26 +83,17 @@ function PlayBadge() {
   );
 }
 
-/** Foto thumbnail sebagai layer background (dengan gambar arena sebagai cadangan jika foto gagal dimuat). */
 const THUMB_STYLE = {
   background: `url(${PREVIEW_POSTER}) center/cover no-repeat, url(${ARENAS[0].bg}) center/cover no-repeat`,
   imageRendering: "auto",
 } as const;
 
-/**
- * Embedded players (Google Drive / YouTube) are not loaded until you tap play.
- * Sebelum di-tap, yang tampil adalah foto thumbnail + tombol play.
- * Why: a Drive player mounted straight into the page (lazy, inside animated and blurred
- * wrappers) often renders tiny, black or without controls on phones. Loading it from a
- * tap gives it a real, visible, full-width box and a user gesture, so it plays normally.
- */
 function EmbedFacade({ source }: { source: Extract<Source, { kind: "youtube" | "drive" }> }) {
   const [active, setActive] = useState(false);
 
   if (active) {
     return (
       <iframe
-        // YouTube can start by itself after the tap; Drive shows its own play button
         src={source.kind === "youtube" ? `${source.src}&autoplay=1` : source.src}
         title="BOX SIEGE gameplay preview"
         allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
@@ -134,10 +118,6 @@ function EmbedFacade({ source }: { source: Extract<Source, { kind: "youtube" | "
   );
 }
 
-/**
- * Video lokal / direct link: thumbnail ditampilkan lewat atribut `poster`
- * dan ikut hilang otomatis saat video dimulai.
- */
 function FilePlayer({ src, onError }: { src: string; onError: () => void }) {
   return (
     <video
@@ -154,7 +134,6 @@ function FilePlayer({ src, onError }: { src: string; onError: () => void }) {
   );
 }
 
-/** The video player itself (16:9 panel). Reused on the home page and the download page. */
 export function VideoPreview({ className = "" }: { className?: string }) {
   const [failed, setFailed] = useState(false);
   const source = parseSource(PREVIEW_VIDEO);
@@ -162,7 +141,6 @@ export function VideoPreview({ className = "" }: { className?: string }) {
 
   return (
     <div className={`mx-auto w-full ${className}`}>
-      {/* plain box (no blur / transform) so the embedded player always gets a proper size */}
       <div className="rounded-2xl border border-white/10 bg-[#12122b] p-1.5 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)] sm:p-3">
         <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black">
           {source.kind === "none" || (source.kind === "file" && failed) ? (
@@ -186,7 +164,6 @@ export function VideoPreview({ className = "" }: { className?: string }) {
   );
 }
 
-/** Gameplay preview section for the home page. */
 export function Trailer() {
   return (
     <section className="relative px-4 py-14 sm:px-5 md:py-28" aria-labelledby="trailer-title">

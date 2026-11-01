@@ -1,5 +1,3 @@
-// AUTO-GENERATED from the Godot project source (global.gd, campaign_data.gd, cosmetics_data.gd).
-// Re-run extract.py if the game data changes.
 export const RAW = {
  "characters": [
   {

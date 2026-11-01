@@ -27,7 +27,6 @@ export const popIn: Variants = {
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: EASE } },
 };
 
-/** Counts up to `to` once visible. */
 export function Counter({ to, suffix = "", className = "" }: { to: number; suffix?: string; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
@@ -71,7 +70,6 @@ export function Tabs<T extends string>({ tabs, value, onChange, id, accent = "#f
   tabs: { id: T; label: string; badge?: string }[]; value: T; onChange: (v: T) => void; id: string; accent?: string; className?: string;
 }) {
   const bar = useRef<HTMLDivElement>(null);
-  // on a phone the tab bar scrolls sideways: keep the active tab in view
   useEffect(() => {
     const b = bar.current;
     const el = b?.querySelector<HTMLElement>('[aria-selected="true"]');
@@ -127,7 +125,6 @@ export function Heart({ className = "w-5 h-5", dim = false }: { className?: stri
   return <img src="/assets/ui/heart.webp" alt="" className={`px inline-block ${className}`} style={{ opacity: dim ? 0.2 : 1, filter: dim ? "grayscale(1)" : undefined }} draggable={false} />;
 }
 
-/** Fighter portrait with optional accessories overlay (geometry matches the game's Cosmetics.draw_accessories). */
 export function FighterFace({ src, size = 180, accessories = [], eyeY = 60, className = "" }: {
   src: string; size?: number; accessories?: { img: string; slot: string; layer: string }[]; eyeY?: number; className?: string;
 }) {

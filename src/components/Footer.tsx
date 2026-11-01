@@ -3,7 +3,6 @@ import { IS_BETA, LINKS } from "@/data/game";
 import { PAGES } from "@/data/pages";
 import { InstagramIcon, TikTokIcon, XIcon } from "./BrandIcons";
 
-/** path segments from data/pages.ts */
 const COLUMNS = [
   { title: "Play", paths: ["modes", "campaign", "rules", "controls"] },
   { title: "Collection", paths: ["fighters", "arsenal", "arenas", "power-ups", "shop"] },

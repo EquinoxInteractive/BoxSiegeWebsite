@@ -4,7 +4,6 @@ import { BETA_WORD, CHARACTERS, GAME_STATUS, STATUS_INFO } from "@/data/game";
 import { Reveal } from "./ui";
 import { sfx } from "@/lib/audio";
 
-/** Closing call-to-action band for the home page. */
 export function DownloadCta() {
   return (
     <section className="relative overflow-hidden px-4 py-20 sm:px-5 md:py-28">

@@ -6,7 +6,6 @@ import { MODES } from "@/data/modes";
 import { Reveal, popIn, stagger } from "./ui";
 import { sfx } from "@/lib/audio";
 
-/** Short pitch per mode for the home page; the full text lives on /modes. */
 const PITCH: Record<string, { text: string; stage: number }> = {
   versus: { text: "One screen, one keyboard or a pile of controllers. First to win enough rounds takes the match.", stage: 3 },
   teams: { text: "Slide into team lanes: 2v2, 3v1 and more. Bullets never hurt teammates.", stage: 6 },

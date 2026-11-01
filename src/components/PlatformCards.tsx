@@ -12,22 +12,11 @@ export type Platform = {
   name: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   accent: string;
-  /** shown on the card and in the system requirements */
   detail: string;
-  /** file type of the download */
   file: string;
-  /** direct download link (see DOWNLOAD in data/game.ts) */
   url: string;
 };
 
-/**
- * ─── PLATFORMS ────────────────────────────────────────────────────────────────
- *  Semua platform sudah bisa di-download. Link ada di `DOWNLOAD` (src/data/game.ts).
- *  Status Beta / Released tidak diatur di sini, tapi lewat GAME_STATUS di src/data/game.ts.
- *
- *  Deteksi OS: `id` di bawah ("windows" | "macos" | "linux") harus sama dengan hasil detectOS()
- *  di src/lib/os.ts. Kartu milik OS pengunjung menyala, kartu lainnya diredupkan.
- * ────────────────────────────────────────────────────────────────────────────── */
 export const PLATFORMS: Platform[] = [
   {
     id: "windows", name: "Windows", icon: WindowsIcon, accent: "#4fd8ff",
@@ -43,7 +32,6 @@ export const PLATFORMS: Platform[] = [
   },
 ];
 
-/** match = OS pengunjung · dim = OS lain (diredupkan) · normal = OS tidak terdeteksi, semua menyala */
 type CardState = "match" | "dim" | "normal";
 
 function PlatformCard({ p, index, state }: { p: Platform; index: number; state: CardState }) {
@@ -63,7 +51,6 @@ function PlatformCard({ p, index, state }: { p: Platform; index: number; state: 
           ...(state === "match" ? { borderColor: p.accent, boxShadow: `0 0 0 2px ${p.accent}, 0 18px 50px -18px ${p.accent}` } : {}),
         }}
       >
-        {/* accent edge + glow */}
         <span className="absolute inset-x-0 top-0 h-1" style={{ background: p.accent }} />
         <span className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full blur-3xl" style={{ background: p.accent, opacity: 0.2 }} />
 
@@ -102,7 +89,6 @@ function PlatformCard({ p, index, state }: { p: Platform; index: number; state: 
 
         <div className="relative mt-auto pt-6">
           <a
-            // kartu yang diredupkan tidak punya link, jadi tidak bisa diklik / di-tab
             href={dim ? undefined : p.url}
             aria-disabled={dim || undefined}
             tabIndex={dim ? -1 : undefined}
@@ -119,9 +105,7 @@ function PlatformCard({ p, index, state }: { p: Platform; index: number; state: 
   );
 }
 
-/** The platform picker on the Download page: one card per operating system. */
 export function PlatformCards() {
-  // Hasil deteksi OS pengunjung. "other" (HP, tablet, ChromeOS, tidak dikenali) = semua kartu menyala.
   const [os] = useState(detectOS);
   const [showAll, setShowAll] = useState(false);
 
@@ -144,7 +128,6 @@ export function PlatformCards() {
         ))}
       </ul>
 
-      {/* Bukan OS yang dipakai? (mis. download untuk komputer lain) → nyalakan semua kartu */}
       {detected && (
         <div className="mt-6 text-center">
           <button
@@ -158,7 +141,6 @@ export function PlatformCards() {
         </div>
       )}
 
-      {/* Report an issue: opens the GitHub Issues page (LINKS.issues in data/game.ts) */}
       <div className="mt-8 flex flex-col items-center gap-2 text-center">
         <a
           href={LINKS.issues}

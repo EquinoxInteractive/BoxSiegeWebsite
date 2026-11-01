@@ -10,7 +10,6 @@ import { EASE } from "./ui";
 
 const SITE = "BOX SIEGE";
 
-/** Sets the tab title and meta description for the current page. */
 export function useDocumentMeta(title: string, description: string) {
   useEffect(() => {
     document.title = title;
@@ -23,7 +22,6 @@ function PageHero({ page, title, intro }: { page: PageDef; title: string; intro?
   const arena = ARENAS.find((a) => a.id === page.stage)!;
   return (
     <header className="relative isolate overflow-hidden" style={{ ["--accent" as string]: page.accent }}>
-      {/* the stage this page is set on */}
       <div className="absolute inset-0 -z-10" style={{ background: `url(${arena.bg}) center/cover`, imageRendering: "pixelated" }} />
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#0b0b1c_6%,rgba(11,11,28,0.84)_46%,rgba(11,11,28,0.3)_100%)] max-lg:bg-[#0b0b1c]/60" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0b0b1c]/75 via-transparent to-[#0b0b1c]/70" />
@@ -65,7 +63,6 @@ function PageHero({ page, title, intro }: { page: PageDef; title: string; intro?
         <PageArt id={page.id} />
       </div>
 
-      {/* stage floor */}
       <div className="absolute inset-x-0 bottom-0 h-[44px] border-t-4 border-black/70" style={{ background: `url(${arena.floor}) repeat-x center/auto 100%`, imageRendering: "pixelated" }} />
     </header>
   );
@@ -112,10 +109,6 @@ function PageNav({ id }: { id: string }) {
   );
 }
 
-/**
- * One page of the site: a header dressed as the page's stage, the page content,
- * and previous / next tiles. `id` is the page's id in data/pages.ts.
- */
 export function Page({ id, title, intro, children, wide = false }: { id: string; title: string; intro?: ReactNode; children: ReactNode; wide?: boolean }) {
   const page = pageById(id);
   useDocumentMeta(`${page.label} · ${SITE}`, page.desc);

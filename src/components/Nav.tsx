@@ -6,7 +6,6 @@ import { BETA_WORD } from "@/data/game";
 import { HOME, NAV_PAGES, PAGES } from "@/data/pages";
 import { sfx } from "@/lib/audio";
 
-/** Home first, then every page except Download (Download has its own big button in the menu). */
 const MENU_PAGES = [HOME, ...NAV_PAGES];
 
 const norm = (p: string) => (p.length > 1 ? p.replace(/\/+$/, "") : p) || "/";
@@ -18,8 +17,6 @@ export function Nav() {
   const menuRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.3 });
-
-  // title shown in the mobile bar: the name of the page you are on
   const current = [HOME, ...PAGES].find((p) => p.path === norm(pathname));
   const title = current?.label ?? "Not found";
   const accent = current?.accent ?? "#ffd23f";
@@ -31,12 +28,10 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // close the mobile menu whenever the page changes
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  // lock page scroll behind the open menu + tell the rest of the page (music button hides itself)
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     if (open) document.documentElement.dataset.menu = "open";
@@ -47,7 +42,6 @@ export function Nav() {
     };
   }, [open]);
 
-  // Esc closes the menu; growing the window to desktop size closes it too
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
@@ -73,12 +67,10 @@ export function Nav() {
         className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-500 ${solid ? "border-b border-white/10 bg-[#0b0b1c]/90 backdrop-blur-xl" : "bg-gradient-to-b from-[#0b0b1c]/70 to-transparent xl:bg-none"}`}
       >
         <nav className="mx-auto flex max-w-[1500px] items-center justify-between gap-3 px-4 py-2 sm:px-6 xl:px-5 xl:py-3" aria-label="Main">
-          {/* desktop: logo */}
           <Link to="/" onClick={() => sfx("ui_confirm", 0.35)} className="hidden shrink-0 xl:block" aria-label="BOX SIEGE home">
             <img src="/assets/ui/title.webp" alt="BOX SIEGE" className="px h-9 w-auto transition-transform hover:scale-105" />
           </Link>
 
-          {/* mobile / tablet: just the title of the page you are on, text only */}
           <button
             type="button"
             onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); sfx("ui_move", 0.2); }}
@@ -100,7 +92,6 @@ export function Nav() {
             </AnimatePresence>
           </button>
 
-          {/* desktop: links */}
           <ul className="hidden items-center gap-1 xl:flex">
             {NAV_PAGES.map((n) => {
               const on = pathname === n.path;
@@ -123,7 +114,6 @@ export function Nav() {
           </ul>
 
           <div className="flex shrink-0 items-center gap-3">
-            {/* desktop: download button (on mobile it lives inside the menu) */}
             <Link to="/download" onClick={() => sfx("ui_confirm", 0.35)} className="skew-btn hidden !py-2.5 !px-5 !text-xs !shadow-none xl:inline-flex">
               <span className="flex items-center gap-2"><Download className="h-4 w-4" /> Download{BETA_WORD}</span>
             </Link>
@@ -197,7 +187,6 @@ export function Nav() {
               </ul>
             </div>
 
-            {/* download lives here now, always reachable at the bottom of the menu */}
             <div className="shrink-0 border-t border-white/10 bg-[#0b0b1c] px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-6">
               <div className="mx-auto max-w-xl sm:max-w-3xl">
                 <Link

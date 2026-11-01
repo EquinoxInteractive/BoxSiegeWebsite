@@ -17,7 +17,6 @@ const STATS = [
   { n: 301, label: "Shop Items", to: "/shop" },
 ];
 
-/** Two fighters trading shots on a floor - purely CSS-driven, loops forever. */
 function BattleScene({ floor }: { floor: string }) {
   const duelists = [
     { c: CHARACTERS[0], w: "smith" as const, p: 0, side: "left" as const },
@@ -34,7 +33,6 @@ function BattleScene({ floor }: { floor: string }) {
                 <img src={c.img} alt="" className="px w-[70px] min-[420px]:w-[92px] md:w-[130px] drop-shadow-[0_10px_0_rgba(0,0,0,0.45)]" />
                 <div className="absolute top-[45%] w-[60px] min-[420px]:w-[78px] md:w-[110px]" style={left ? { left: "58%" } : { right: "58%", transform: "scaleX(-1)" }}>
                   <img src={weaponImg(w, p)} alt="" className="px block w-full max-w-none" />
-                  {/* bullets are children of the gun so they start exactly at the muzzle (and mirror with it) */}
                   <span className="absolute" style={{ left: "100%", top: `${MUZZLE[w] * 100}%` }}>
                     {[0, 1, 2].map((k) => (
                       <span key={k} className="absolute left-0 top-0 block -translate-y-1/2">
@@ -68,7 +66,6 @@ export function Hero() {
 
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden px-4 pb-14 pt-24 sm:px-5 md:pb-16 md:pt-28">
-      {/* rotating arena backdrop */}
       <motion.div className="absolute inset-0 -z-10" style={{ y: bgY }}>
         <AnimatePresence mode="sync">
           <motion.div
@@ -148,7 +145,6 @@ export function Hero() {
         <ChevronDown className="w-8 h-8" />
       </motion.div>
 
-      {/* decorative power-up ring */}
       <div className="pointer-events-none absolute inset-0 -z-[5]" aria-hidden>
         {POWERUPS.slice(0, 7).map((p, k) => (
           <img key={p.id} src={p.icon} alt="" className="px absolute w-8 animate-bob-rot opacity-35 sm:w-10 sm:opacity-60 md:w-14 md:opacity-70" style={{ left: k % 2 ? `${86 + (k % 3) * 3}%` : `${3 + (k % 3) * 3}%`, top: `${14 + ((k * 23) % 60)}%`, animationDelay: `${k * 0.45}s`, filter: `drop-shadow(0 0 14px ${p.color}aa)` }} />
