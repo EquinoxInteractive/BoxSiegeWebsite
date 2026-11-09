@@ -375,11 +375,33 @@ export const LINKS = {
   issues: "https://github.com/EquinoxInteractive/BoxSiegeGodot/issues",
 };
 
-/** Direct download links (GitHub Releases). Windows = .exe, macOS & Linux = .zip */
+/**
+ * Download otomatis (GitHub Releases).
+ *
+ * Link di bawah memakai alamat "latest" milik GitHub, jadi SELALU menunjuk ke rilis terbaru.
+ * Setiap kali Anda membuat rilis baru di GitHub, tombol download di website ikut berpindah
+ * ke rilis itu tanpa mengubah kode atau deploy ulang. Syaratnya cuma satu:
+ * NAMA FILE di setiap rilis harus sama dengan ASSET_NAMES di bawah.
+ *
+ * Selain itu website membaca info rilis terbaru lewat GitHub API (versi, tanggal, ukuran file).
+ * Kalau API gagal / terkena batas, tombol tetap bekerja lewat link "latest" ini.
+ */
+export const REPO = { owner: "EquinoxInteractive", name: "BoxSiegeGodot" } as const;
+export const RELEASES_URL = `https://github.com/${REPO.owner}/${REPO.name}/releases`;
+export const LATEST_API = `https://api.github.com/repos/${REPO.owner}/${REPO.name}/releases/latest`;
+
+/** Nama file yang di-upload di setiap rilis (harus konsisten antar rilis). Windows = .exe, macOS = .zip, Linux = .x86_64 */
+export const ASSET_NAMES = {
+  windows: "BoxSiege-windows.exe",
+  macos: "BoxSiege-macos.zip",
+  linux: "BoxSiege-linux.x86_64",
+} as const;
+
+const LATEST_DL = `${RELEASES_URL}/latest/download`;
 export const DOWNLOAD = {
-  windows: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/Windows/BoxSiege.exe",
-  macos: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/MacOS/BoxSiege.zip",
-  linux: "https://github.com/EquinoxInteractive/BoxSiegeGodot/releases/download/Linux/BoxSiege.x86_64",
+  windows: `${LATEST_DL}/${ASSET_NAMES.windows}`,
+  macos: `${LATEST_DL}/${ASSET_NAMES.macos}`,
+  linux: `${LATEST_DL}/${ASSET_NAMES.linux}`,
 } as const;
 
 // ───────────────────────────── game status (BETA / RELEASE) ─────────────────────────────

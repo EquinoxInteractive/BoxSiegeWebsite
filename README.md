@@ -171,8 +171,8 @@ Most day-to-day changes only need a single line to be edited.
 | Task | Where |
 |---|---|
 | Switch the site between "Beta" and "Released" | Change `GAME_STATUS` in `src/data/game.ts` (`"beta"` or `"released"`) |
-| Update direct download links | Edit the `DOWNLOAD` object in `src/data/game.ts` |
-| Change a platform's download link | Edit the `DOWNLOAD` object in `src/data/game.ts` (Windows = `.exe`, macOS and Linux = `.zip`) |
+| Update direct download links | Automatic: just publish a new GitHub Release (see `DOWNLOAD` in `src/data/game.ts`) |
+| Change a platform file name | Edit `ASSET_NAMES` in `src/data/game.ts` (must match the file names uploaded to every release) |
 | Set the gameplay preview video | Change `PREVIEW_VIDEO` in `src/components/Trailer.tsx` (local file, YouTube, Google Drive, or direct link) |
 | Update social links | Edit the `LINKS` object in `src/data/game.ts` |
 | Add or edit a page | Edit `src/data/pages.ts` and the matching file in `src/pages/` |

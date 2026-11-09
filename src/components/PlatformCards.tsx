@@ -1,9 +1,11 @@
 import { useState } from "react";
 import type { ComponentType, SVGProps } from "react";
 import { Bug, Check, Download as DL, FlaskConical, Monitor } from "lucide-react";
-import { BETA_WORD, DOWNLOAD, GAME_STATUS, IS_BETA, LINKS, STATUS_INFO } from "@/data/game";
+import { BETA_WORD, DOWNLOAD, GAME_STATUS, IS_BETA, LINKS, RELEASES_URL, STATUS_INFO } from "@/data/game";
 import { sfx } from "@/lib/audio";
 import { detectOS } from "@/lib/os";
+import { formatDate, formatSize, useLatestRelease } from "@/lib/release";
+import type { PlatformId, ReleaseAsset, ReleaseInfo } from "@/lib/release";
 import { AppleIcon, LinuxIcon, WindowsIcon } from "./BrandIcons";
 import { Reveal } from "./ui";
 
@@ -34,7 +36,7 @@ export const PLATFORMS: Platform[] = [
 
 type CardState = "match" | "dim" | "normal";
 
-function PlatformCard({ p, index, state }: { p: Platform; index: number; state: CardState }) {
+function PlatformCard({ p, index, state, asset }: { p: Platform; index: number; state: CardState; asset?: ReleaseAsset }) {
   const Icon = p.icon;
   const info = STATUS_INFO[GAME_STATUS];
   const dim = state === "dim";
@@ -79,7 +81,7 @@ function PlatformCard({ p, index, state }: { p: Platform; index: number; state: 
         <dl className="relative mt-5 grid grid-cols-2 gap-3 text-sm">
           <div className="rounded-xl bg-black/30 px-3.5 py-2.5">
             <dt className="font-ui text-[11px] uppercase tracking-widest text-white/45">Format</dt>
-            <dd className="mt-0.5 font-ui text-base">{p.file}</dd>
+            <dd className="mt-0.5 font-ui text-base">{p.file}{asset?.size ? ` · ${formatSize(asset.size)}` : ""}</dd>
           </div>
           <div className="rounded-xl bg-black/30 px-3.5 py-2.5">
             <dt className="font-ui text-[11px] uppercase tracking-widest text-white/45">Price</dt>
@@ -89,7 +91,7 @@ function PlatformCard({ p, index, state }: { p: Platform; index: number; state: 
 
         <div className="relative mt-auto pt-6">
           <a
-            href={dim ? undefined : p.url}
+            href={dim ? undefined : asset?.url ?? p.url}
             aria-disabled={dim || undefined}
             tabIndex={dim ? -1 : undefined}
             onMouseEnter={dim ? undefined : () => sfx("ui_hover", 0.15)}
@@ -105,8 +107,29 @@ function PlatformCard({ p, index, state }: { p: Platform; index: number; state: 
   );
 }
 
+function LatestLine({ rel }: { rel: ReleaseInfo }) {
+  const date = formatDate(rel.date);
+  return (
+    <p className="mt-6 text-center font-ui text-sm uppercase tracking-[0.18em] text-white/55">
+      Latest version <span className="text-gold">v{rel.version}</span>
+      {date ? ` · ${date}` : ""}
+      {" · "}
+      <a
+        href={rel.url || RELEASES_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => sfx("ui_confirm", 0.35)}
+        className="underline decoration-white/25 underline-offset-4 transition-colors hover:text-gold"
+      >
+        Release notes
+      </a>
+    </p>
+  );
+}
+
 export function PlatformCards() {
   const [os] = useState(detectOS);
+  const rel = useLatestRelease();
   const [showAll, setShowAll] = useState(false);
 
   const detected = PLATFORMS.find((p) => p.id === os);
@@ -124,9 +147,11 @@ export function PlatformCards() {
       </p>
       <ul className="grid gap-5 md:grid-cols-3">
         {PLATFORMS.map((p, i) => (
-          <li key={p.id}><PlatformCard p={p} index={i} state={stateOf(p)} /></li>
+          <li key={p.id}><PlatformCard p={p} index={i} state={stateOf(p)} asset={rel?.assets[p.id as PlatformId]} /></li>
         ))}
       </ul>
+
+      {rel && <LatestLine rel={rel} />}
 
       {detected && (
         <div className="mt-6 text-center">
